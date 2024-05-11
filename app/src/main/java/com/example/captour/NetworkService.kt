@@ -33,4 +33,15 @@ interface NetworkService {
         @Query("serviceKey") serviceKey: String,
         @Query("arrange") arrange: String
     ): Call<XmlResponse>
+
+    @GET("gallerySearchList1")
+    fun getSearchXmlList(
+        @Query("numOfRows") numOfRows: Int,
+        @Query("pageNo") pageNo: Int,
+        @Query("MobileOS") MobileOS: String,
+        @Query("keyword") keyword: String,
+        @Query("MobileApp") MobileApp: String,
+        @Query("serviceKey") serviceKey: String,
+        @Query("arrange") arrange: String
+    ): Call<XmlResponse>
 }

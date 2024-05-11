@@ -43,7 +43,6 @@ class TwoFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = FragmentTwoBinding.inflate(inflater, container, false)
 
-        val year = arguments?.getString("searchYear") ?: "2024"
 
         val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
             10,
@@ -53,6 +52,7 @@ class TwoFragment : Fragment() {
             "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
             "A"
         )
+
 
         call?.enqueue(object: Callback<XmlResponse> {
             override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
@@ -68,6 +68,37 @@ class TwoFragment : Fragment() {
             }
 
         })
+
+        binding.btnSearch.setOnClickListener {
+            val searchText = binding.search.text.toString()
+            val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getSearchXmlList(
+                10,
+                1,
+                "ETC",
+                searchText,
+                "CapTour",
+                "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
+                "A"
+            )
+
+            Log.d("mobileapp", searchText)
+
+            call?.enqueue(object: Callback<XmlResponse> {
+                override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
+                    Log.d("mobileApp", "$response")
+                    Log.d("mobileapp", "${response.body()}")
+                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item)
+                    binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
+                    binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+                }
+
+                override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
+                    Log.d("mobileApp", "onFalure ${call.request()}")
+                }
+
+            })
+        }
+
         return binding.root
     }
 
