@@ -1,11 +1,18 @@
 package com.example.captour
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentOneBinding
+import com.example.ch17_storage2.MyAdapter
+import java.text.SimpleDateFormat
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +43,38 @@ class OneFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentOneBinding.inflate(inflater, container, false)
+
+        val datas = mutableListOf<String>()
+
+        val db = DBHelper(requireContext()).readableDatabase
+        val cursor = db.rawQuery("select * from captour_db", null)
+        // Log.d("mobileapp", cursor.toString())
+        while(cursor.moveToNext()) {
+            datas?.add(cursor.getString(1))
+        }
+        db.close()
+
+        val adapter = MyAdapter(datas)
+        binding.recyclerView.adapter=adapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager=layoutManager
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+
+        val requestLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){
+            it.data?.getStringExtra("result")?.let {// "result"에 값이 저장되어 있으면(non-null)
+                if(it != "") {
+                    datas?.add(it)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+        binding.mainFab.setOnClickListener {
+            val intent = Intent(requireContext(), AddActivity::class.java)
+            requestLauncher.launch(intent)
+        }
+
         return binding.root
     }
 

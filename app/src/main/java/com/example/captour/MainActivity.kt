@@ -1,5 +1,6 @@
 package com.example.captour
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -8,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,6 +18,8 @@ import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.captour.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import java.io.BufferedReader
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // val adapter = MyFragmentAdapter(this)
         binding.viewpager.adapter = MyFragmentAdapter(this)
 
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
@@ -85,8 +91,6 @@ class MainActivity : AppCompatActivity() {
         binding.tabs.tabTextColors = colorStateList
 
 
-
-
         /*
         테마 바뀌기 실행 안됨
         Log.d("mobileapp", ""+color)
@@ -102,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(newTheme)
 
          */
+
 
 
 
