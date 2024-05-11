@@ -24,6 +24,8 @@ class AddActivity : AppCompatActivity() {
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar);
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.btnWrite.setOnClickListener {
             val intent = intent
             val title = binding.title.text.toString()
@@ -40,5 +42,9 @@ class AddActivity : AppCompatActivity() {
             true
         }
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return super.onSupportNavigateUp()
     }
 }
