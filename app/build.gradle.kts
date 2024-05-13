@@ -72,4 +72,11 @@ dependencies {
     implementation("com.tickaroo.tikxml:retrofit-converter:0.8.13")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt ("com.tickaroo.tikxml:processor:0.8.13")
+    // 지도
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+
+    // 이미지
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+
+
 }

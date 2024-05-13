@@ -1,10 +1,13 @@
 package com.example.ch17_storage2
 
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.captour.databinding.ItemRecyclerviewBinding
 import java.text.SimpleDateFormat
+
 
 class MyViewHolder(val binding: ItemRecyclerviewBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -24,4 +27,5 @@ class MyAdapter(val datas: MutableList<String>?): RecyclerView.Adapter<RecyclerV
         val dataFormat = SimpleDateFormat("yyyy-MM-dd")
         binding.date.text = dataFormat.format(System.currentTimeMillis())
     }
+
 }
