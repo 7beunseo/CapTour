@@ -52,6 +52,13 @@
             android:text="galSearchKeyword"
             android:id="@+id/galSearchKeyword"
             android:textSize="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="searchYoutube"
+            android:id="@+id/searchYoutube"
+            android:textSize="15dp"/>
     </LinearLayout>
 
 

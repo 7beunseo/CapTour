@@ -44,4 +44,12 @@ interface NetworkService {
         @Query("serviceKey") serviceKey: String,
         @Query("arrange") arrange: String
     ): Call<XmlResponse>
+
+    @GET("search")
+    fun searchVideos(
+        @Query("key") apiKey: String,
+        @Query("part") part: String = "snippet",
+        @Query("q") query: String,
+        @Query("maxResults") maxResults: Int = 25
+    ): Call<YoutubeJsonResponse>
 }
