@@ -26,7 +26,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
 
         binding.galTitle.text = model.galTitle
         binding.galCreatedtime.text = model.galCreatedtime
-        binding.galPhotographyLocation.text = model.galPhotographyLocation
+        binding.galPhotographyLocation.text = model.galPhotographyLocation + " (위치를 보려면 클릭)"
         binding.galPhotographer.text = model.galPhotographer
         binding.galSearchKeyword.text = model.galSearchKeyword
 
@@ -35,15 +35,15 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
             // .override(400, 300)
             .into(binding.image)
 
-        /*
+
         binding.galPhotographyLocation.setOnClickListener {
             val context = holder.itemView.context // Context를 얻는 방법
             // 지도 연결
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/덕성여대/선바위역/"));
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=${model.galPhotographyLocation}"))
             context.startActivity(intent)
             true
         }
 
-         */
+
     }
 }
