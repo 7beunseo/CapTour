@@ -2,10 +2,13 @@ package com.example.captour
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.example.captour.databinding.FragmentThreeBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,6 +26,8 @@ class ThreeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var binding: FragmentThreeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,12 +41,26 @@ class ThreeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentThreeBinding.inflate(inflater, container, false)
+        binding = FragmentThreeBinding.inflate(inflater, container, false)
 
         binding.setting.setOnClickListener {
             val intent = Intent(requireContext(), SettingActivity::class.java)
             startActivity(intent)
         }
+
+        val status = binding.login
+        status.setOnClickListener {
+            Log.d("mobileapp", "button.setOnClickListener")
+            val intent = Intent(requireContext(), AuthActivity::class.java)
+
+            if(status.text.equals("로그인"))  {
+                intent.putExtra("status", "logout")
+            } else if(status.text.equals("로그아웃")) {
+                intent.putExtra("status", "login")
+            }
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
@@ -63,5 +82,21 @@ class ThreeFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // 처리
+        val status = binding.login
+        val user = binding.user
+
+        if(MyApplication.checkAuth()) {
+            status.text = "로그아웃"
+            user.text = "${MyApplication.email}님\n반갑습니다"
+        } else {
+            status.text = "로그인"
+            user.text = "안녕하세요"
+        }
     }
 }
