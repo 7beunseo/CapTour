@@ -3,6 +3,7 @@ package com.example.captour
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.ActivityYoutubeBinding
@@ -20,6 +21,10 @@ class YoutubeActivity : AppCompatActivity() {
 
         binding = ActivityYoutubeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar: Toolbar = binding.toolbar
+        setSupportActionBar(toolbar);
+
 
         val data = intent.getStringExtra("videoTitle")
         if (data != null) {
