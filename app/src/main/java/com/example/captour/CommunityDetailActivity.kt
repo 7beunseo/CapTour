@@ -2,10 +2,19 @@ package com.example.captour
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityDetailCommunityBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class CommunityDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailCommunityBinding
@@ -37,6 +46,40 @@ class CommunityDetailActivity : AppCompatActivity() {
                 .load(imageUrl)
                 .into(binding.imageView)
             binding.imageView.visibility = View.VISIBLE
+        }
+
+        if(MyApplication.email.toString() != binding.email.text.toString()) {
+            Log.d("mobileapp", MyApplication.email.toString())
+            Log.d("mobileapp", binding.email.toString())
+            binding.followBtn.visibility = View.VISIBLE
+        }
+
+        binding.followBtn.setOnClickListener {
+            // 팔로우 생성
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://172.30.1.81:8080/captour/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(NetworkService::class.java)
+            val call =
+                apiService.createFollow(
+                    follower = MyApplication.email.toString(),
+                    following = binding.email.text.toString()
+                )
+
+            call?.enqueue(object : Callback<FollowJsonResponse> {
+                override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
+                    Log.d("mobileapp", response.message())
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
+                    Log.d("mobileapp", t.toString())
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 실패", Toast.LENGTH_LONG).show()
+
+                }
+            })
         }
     }
 

@@ -72,13 +72,31 @@
             android:text="sample"
             />
 
-        <TextView
-            android:textSize="15dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/email"
-            android:text="sample"
-            />
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:textSize="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email"
+                android:text="sample"
+                />
+
+            <Button
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="팔로우"
+                android:id="@+id/followBtn"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
 
         <ImageView
             android:layout_width="wrap_content"

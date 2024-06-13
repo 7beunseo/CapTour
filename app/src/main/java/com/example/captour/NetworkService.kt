@@ -54,4 +54,18 @@ interface NetworkService {
         @Query("q") query: String,
         @Query("maxResults") maxResults: Int = 25
     ): Call<YoutubeJsonResponse>
+
+    // http://127.0.0.1:8080/captour/create-follow?follower=kimes&following=kimtj
+    @GET("create-follow")
+    fun createFollow(
+        @Query("follower") follower: String,
+        @Query("following") following: String
+    ): Call<FollowJsonResponse>
+
+    // http://127.0.0.1:8080/captour/read-follow?follower=kimes
+    @GET("read-follow")
+    fun readFollow (
+        @Query("follower") follower: String
+    ): Call<FollowJsonResponse>
+
 }
