@@ -53,7 +53,8 @@ class ThreeFragment : Fragment() {
 
         binding.followingList.setOnClickListener {
             val follower = MyApplication.email.toString()
-
+            val intent = Intent(requireContext(), FollowListActivity::class.java)
+            startActivity(intent)
         }
 
         val status = binding.login

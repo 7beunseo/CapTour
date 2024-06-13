@@ -49,8 +49,8 @@ class CommunityDetailActivity : AppCompatActivity() {
         }
 
         if(MyApplication.email.toString() != binding.email.text.toString()) {
-            Log.d("mobileapp", MyApplication.email.toString())
-            Log.d("mobileapp", binding.email.toString())
+            // Log.d("mobileapp", MyApplication.email.toString())
+            // Log.d("mobileapp", binding.email.toString())
             binding.followBtn.visibility = View.VISIBLE
         }
 
@@ -70,12 +70,12 @@ class CommunityDetailActivity : AppCompatActivity() {
 
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
-                    Log.d("mobileapp", response.message())
+                    // Log.d("mobileapp", response.message())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
-                    Log.d("mobileapp", t.toString())
+                    // Log.d("mobileapp", t.toString())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 실패", Toast.LENGTH_LONG).show()
 
                 }

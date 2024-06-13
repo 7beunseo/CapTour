@@ -1,20 +1,13 @@
 package com.example.captour
 
-import android.R
 import android.content.Intent
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.captour.databinding.FollowItemBinding
 import com.example.captour.databinding.YoutubeItemBinding
-import com.google.android.play.integrity.internal.c
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
 class MyViewHolder(val binding: YoutubeItemBinding) : RecyclerView.ViewHolder(binding.root)
