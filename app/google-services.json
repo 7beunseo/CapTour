@@ -12,7 +12,20 @@
           "package_name": "com.example.captour"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1034749220111-k1djs4gfeql1vi1a7mlbf7f7co5b4lo7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.captour",
+            "certificate_hash": "e3924dc4daba29cb52c9ce97976a03aa0d325ecb"
+          }
+        },
+        {
+          "client_id": "1034749220111-1okipg4eplrakhev6mv5s9e6b82l9v93.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA0Qi1m2EWR6nzccuWVl0TrG6qgSWe30to"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034749220111-1okipg4eplrakhev6mv5s9e6b82l9v93.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

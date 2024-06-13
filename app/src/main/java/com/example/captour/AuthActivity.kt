@@ -7,6 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.captour.databinding.ActivityAuthBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityAuthBinding
@@ -16,10 +20,10 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        changeVisivility(intent.getStringExtra("status").toString())
+        changeVisibility(intent.getStringExtra("status").toString())
 
         binding.goSignInBtn.setOnClickListener {
-            changeVisivility("signin")
+            changeVisibility("signin")
         }
 
         binding.signBtn.setOnClickListener {
@@ -36,18 +40,18 @@ class AuthActivity : AppCompatActivity() {
                                 if(sendTask.isSuccessful) {
                                     Toast.makeText(baseContext, "회원가입 성공!! 메일을 확인해주세요", Toast.LENGTH_SHORT).show()
                                     Log.d("mobileapp", "회원가입 성공")
-                                    changeVisivility("logout")
+                                    changeVisibility("logout")
                                 }
                                 else {
                                     Toast.makeText(baseContext, "메일 발송 실패", Toast.LENGTH_SHORT).show()
                                     Log.d("mobileapp", "메일 발송 실패")
-                                    changeVisivility("logout")
+                                    changeVisibility("logout")
                                 }
                             }
                     } else {
                         Toast.makeText(baseContext, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         Log.d("mobileapp", "== ${task.exception} ==")
-                        changeVisivility("logout")
+                        changeVisibility("logout")
                     }
                 }
         }
@@ -85,16 +89,89 @@ class AuthActivity : AppCompatActivity() {
             finish()
         }
 
-        val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+
+        val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data) // 이메올로 로그인 한 경우 값을 받음
+            Log.d("mobileapp","account1 : ${task.toString()}")
+            //Log.d("mobileapp","account2 : ${task.result}")
+            try{
+                val account = task.getResult(ApiException::class.java) // 로그인 한 경우 로그아웃 하지 않는 이상 로그인 된 상태임 - 신용으로 계속해서 로그인이 유지되도록 함
+                val crendential = GoogleAuthProvider.getCredential(account.idToken, null)
+                MyApplication.auth.signInWithCredential(crendential)
+                    .addOnCompleteListener(this){task ->
+                        if(task.isSuccessful){
+                            MyApplication.email = account.email // 구글 이메일이 됨
+                            Toast.makeText(baseContext,"구글 로그인 성공",Toast.LENGTH_SHORT).show()
+                            Log.d("mobileapp", "구글 로그인 성공")
+                            finish() // 인증 완료
+                        }
+                        else{
+                            changeVisibility("logout")
+                            Toast.makeText(baseContext,"구글 로그인 실패",Toast.LENGTH_SHORT).show()
+                            Log.d("mobileapp", "구글 로그인 실패")
+                        }
+                    }
+            }catch (e: ApiException){ // APIException은 이미 지정된 exception말고 custom한 exception을 만들어서 쓰고 싶을때 사용
+                changeVisibility("logout")
+                Toast.makeText(baseContext,"구글 로그인 Exception : ${e.printStackTrace()},${e.statusCode}",Toast.LENGTH_SHORT).show()
+                Log.d("mobileapp", "구글 로그인 Exception : ${e.message}, ${e.statusCode}")
+            }
         }
 
-        binding.googleLoginBtn.setOnClickListener {
-            // val intent
-            // requestLauncher.launch(intent)
+        binding.googleLoginBtn.setOnClickListener { // 구글인증 Button
+            val gso = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_client_id))
+                .requestEmail()
+                .build()
+            val signInIntent = GoogleSignIn.getClient(this,gso).signInIntent
+            requestLauncher.launch(signInIntent)
         }
+
+        /*
+        val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            Log.d("mobileapp","account1 : ${task.toString()}")
+            //Log.d("mobileapp","account2 : ${task.result}")
+            try{
+                val account = task.getResult(ApiException::class.java)
+                val crendential = GoogleAuthProvider.getCredential(account.idToken, null)
+                MyApplication.auth.signInWithCredential(crendential)
+                    .addOnCompleteListener(this){task ->
+                        if(task.isSuccessful){
+                            MyApplication.email = account.email
+                            Toast.makeText(baseContext,"구글 로그인 성공",Toast.LENGTH_SHORT).show()
+                            Log.d("mobileapp", "구글 로그인 성공")
+                            finish()
+                        }
+                        else{
+                            changeVisibility("logout")
+                            Toast.makeText(baseContext,"구글 로그인 실패",Toast.LENGTH_SHORT).show()
+                            Log.d("mobileapp", "구글 로그인 실패")
+                        }
+                    }
+            }catch (e: ApiException){ // APIException은 이미 지정된 exception말고 custom한 exception을 만들어서 쓰고 싶을때 사용
+                changeVisibility("logout")
+                Toast.makeText(baseContext,"구글 로그인 Exception : ${e.printStackTrace()},${e.statusCode}",Toast.LENGTH_SHORT).show()
+                Log.d("mobileapp", "구글 로그인 Exception : ${e.message}, ${e.statusCode}")
+            }
+        }
+
+        binding.googleLoginBtn.setOnClickListener { // 구글인증 Button
+            val gso = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_client_id))
+                .requestEmail()
+                .build()
+            val signInIntent = GoogleSignIn.getClient(this,gso).signInIntent
+            requestLauncher.launch(signInIntent)
+        }
+        */
+
     }
 
-    fun changeVisivility(mode:String){
+    fun changeVisibility(mode:String){
         if(mode.equals("login")){
             binding.run{
                 authMainTextView.text = "정말 로그아웃하시겠습니까?"
