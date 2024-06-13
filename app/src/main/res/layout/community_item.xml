@@ -4,17 +4,34 @@
     android:layout_width="match_parent"
     android:layout_margin="20dp"
     android:padding="10dp"
-    android:background="@drawable/community_round"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:textSize="20dp"
-        android:textStyle="bold"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:text="sample"
-        />
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="sample"
+            />
+
+        <RatingBar
+            android:layout_marginTop="13dp"
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="5.0"
+            android:stepSize="0.1"
+            style="?android:attr/ratingBarStyleSmall" />
+
+    </LinearLayout>
+
 
     <TextView
         android:textSize="15dp"
@@ -23,6 +40,23 @@
         android:id="@+id/content"
         android:text="sample"
         />
+
+    <TextView
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_time"
+        android:text="sample"
+        />
+
+    <TextView
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:text="sample"
+        />
+
 
 
 </LinearLayout>
