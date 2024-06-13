@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentOneBinding
 import com.example.ch17_storage2.MyAdapter
+import java.io.BufferedReader
+import java.io.File
 import java.text.SimpleDateFormat
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +48,7 @@ class OneFragment : Fragment() {
 
         val datas = mutableListOf<String>()
 
+        // db에 저장
         val db = DBHelper(requireContext()).readableDatabase
         val cursor = db.rawQuery("select * from captour_db", null)
         // Log.d("mobileapp", cursor.toString())
@@ -53,6 +56,17 @@ class OneFragment : Fragment() {
             datas?.add(cursor.getString(1))
         }
         db.close()
+
+
+        // 파일에 저장하기
+        val file = File(requireContext().filesDir, "test.txt")
+
+        if (!file.exists()) {
+            file.writeText("No data") // 파일이 없으면 생성
+        }
+
+        val readstream: BufferedReader = file.reader().buffered() // 읽을 준비
+        binding.last.text = "마지막 활동시간 : " + readstream.readLine()
 
         val adapter = MyAdapter(datas)
         binding.recyclerView.adapter=adapter
@@ -66,6 +80,11 @@ class OneFragment : Fragment() {
                 if(it != "") {
                     datas?.add(it)
                     adapter.notifyDataSetChanged()
+
+                    // 파일 읽기 작업 진행
+                    val file = File(requireContext().filesDir, "test.txt")
+                    val readstream: BufferedReader = file.reader().buffered() // 읽을 준비
+                    binding.last.text = "마지막 저장시간 : " + readstream.readLine()
                 }
             }
         }

@@ -10,6 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.captour.databinding.ActivityAddBinding
+import java.io.File
+import java.io.OutputStreamWriter
+import java.text.SimpleDateFormat
 
 class AddActivity : AppCompatActivity() {
 
@@ -40,6 +43,13 @@ class AddActivity : AppCompatActivity() {
             db.close()
             finish()
             true
+
+            // 파일 저장하기
+            val dateformat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss") // 년 월 일 시 분 초
+            val file = File(filesDir, "test.txt")
+            val writestream: OutputStreamWriter = file.writer()
+            writestream.write(dateformat.format(System.currentTimeMillis()))
+            writestream.flush()
         }
 
     }
