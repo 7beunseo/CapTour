@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.PreferenceManager
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentOneBinding
 import com.example.captour.databinding.ItemRecyclerviewBinding
 import com.example.ch17_storage2.MyAdapter
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.BufferedReader
 import java.io.File
 import java.text.SimpleDateFormat
@@ -44,6 +46,10 @@ class OneFragment : Fragment() {
 
     lateinit var sharedPreference: SharedPreferences
     lateinit var binding: FragmentOneBinding
+    // firestore에 데이터 저장
+    lateinit var db : FirebaseFirestore
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,10 +57,12 @@ class OneFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentOneBinding.inflate(inflater, container, false)
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        db = FirebaseFirestore.getInstance()
 
         val datas = mutableListOf<String>()
 
-        // db에 저장
+        // 1. db에 저장하는 방법
+        /*
         val db = DBHelper(requireContext()).readableDatabase
         val cursor = db.rawQuery("select * from captour_db", null)
         // Log.d("mobileapp", cursor.toString())
@@ -62,6 +70,9 @@ class OneFragment : Fragment() {
             datas?.add(cursor.getString(1))
         }
         db.close()
+         */
+
+        // 2. firestorage 이용
 
 
         // 파일에 저장하기
@@ -96,8 +107,14 @@ class OneFragment : Fragment() {
         }
 
         binding.mainFab.setOnClickListener {
-            val intent = Intent(requireContext(), AddActivity::class.java)
-            requestLauncher.launch(intent)
+            // 로그인한 사용자만
+            if(!MyApplication.checkAuth()) {
+                Toast.makeText(requireContext(), "로그인을 먼저 진행해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val intent = Intent(requireContext(), AddActivity::class.java)
+                requestLauncher.launch(intent)
+            }
         }
 
         return binding.root

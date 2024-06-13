@@ -99,4 +99,8 @@ dependencies {
     // 1034749220111-1okipg4eplrakhev6mv5s9e6b82l9v93.apps.googleusercontent.com
     implementation("com.google.android.gms:play-services-auth:21.1.1")
     implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
+
+
+    // 스토리지
+    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
 }

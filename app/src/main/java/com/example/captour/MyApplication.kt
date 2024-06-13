@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 // Dex : Dalvic Executale (64k)
 class MyApplication : MultiDexApplication() {
@@ -19,12 +20,15 @@ class MyApplication : MultiDexApplication() {
 
         var auth: FirebaseAuth = Firebase.auth
         var email: String? = null
+        // firestore에 데이터 저장
+        var db : FirebaseFirestore =  FirebaseFirestore.getInstance()
 
     }
     override fun onCreate() {
         super.onCreate()
 
         auth = Firebase.auth
+        // db = FirebaseFirestore.getInstance()
 
 
     }
