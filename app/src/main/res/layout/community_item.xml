@@ -21,6 +21,7 @@
             />
 
         <RatingBar
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="13dp"
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
 
     <TextView
         android:textSize="15dp"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/content"
@@ -43,6 +45,7 @@
 
     <TextView
         android:textSize="15dp"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/date_time"
@@ -51,12 +54,18 @@
 
     <TextView
         android:textSize="15dp"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email"
         android:text="sample"
         />
 
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:layout_margin="10dp"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -1,8 +1,14 @@
 package com.example.captour
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,6 +16,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityAddBinding
 import java.io.File
 import java.io.OutputStreamWriter
@@ -18,6 +25,7 @@ import java.text.SimpleDateFormat
 class AddActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddBinding
+    lateinit var uri : Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +73,7 @@ class AddActivity : AppCompatActivity() {
                     .add(data)
                     .addOnSuccessListener {
                         Toast.makeText(this, "데이터 저장 성공", Toast.LENGTH_SHORT).show()
+                        uploadImage(it.id)
                         finish()
                     }
                     .addOnFailureListener {
@@ -75,6 +84,7 @@ class AddActivity : AppCompatActivity() {
                 Toast.makeText(this, "제목을 작성해주세요", Toast.LENGTH_SHORT).show()
             }
 
+
             // 파일 저장하기
             val dateformat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss") // 년 월 일 시 분 초
             val file = File(filesDir, "test.txt")
@@ -83,6 +93,38 @@ class AddActivity : AppCompatActivity() {
             writestream.flush()
         }
 
+        // 이미지 업로드
+        val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if(it.resultCode === android.app.Activity.RESULT_OK){
+                binding.addImageView.visibility = View.VISIBLE
+                Glide
+                    .with(applicationContext)
+                    .load(it.data?.data)
+                    .override(200,150)
+                    .into(binding.addImageView)
+                uri = it.data?.data!!
+            }
+        }
+
+        binding.upload.setOnClickListener {
+            Log.d("mobileapp", "in")
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+            requestLauncher.launch(intent)
+        }
+
+    }
+
+    fun uploadImage(docId : String){
+        val imageRef = MyApplication.storage.reference.child("images/${docId}.jpg")
+
+        val uploadTask = imageRef.putFile(uri)
+        uploadTask.addOnSuccessListener {
+            Toast.makeText(this, "사진 업로드 성공", Toast.LENGTH_LONG).show()
+        }
+        uploadTask.addOnFailureListener {
+            Toast.makeText(this, "사진 업로드 실패", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
