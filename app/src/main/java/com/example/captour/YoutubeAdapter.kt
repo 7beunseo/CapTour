@@ -1,11 +1,15 @@
 package com.example.captour
 
 import android.R
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.captour.databinding.YoutubeItemBinding
+import com.google.android.play.integrity.internal.c
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -54,6 +58,14 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
 
          */
 
+        Log.d("mobileapp", youtubeData.snippet.thumbnails.toString())
+        Glide.with(binding.root)
+            .load(youtubeData.snippet.thumbnails.default.url)
+            .into(binding.youtubeThumbnail)
+
+        binding.youtubeThumbnail.setOnClickListener {
+
+        }
 
         binding.videoDescription.text = youtubeData.snippet.description
         binding.videoTitle.text = youtubeData.snippet.title

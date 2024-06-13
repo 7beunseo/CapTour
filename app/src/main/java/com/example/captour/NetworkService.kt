@@ -22,6 +22,8 @@ serviceKey	인증키
 _type	응답메세지 형식
 arrange	정렬 구분
  */
+
+// https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=%EA%B1%B0%EB%8F%88%EC%82%AC%EC%A7%80&type=video&key=AIzaSyBmdUaOHy8OiRw3cNttYLul8Sa4m7NhVP4
 interface NetworkService {
 
     @GET("galleryList1")
