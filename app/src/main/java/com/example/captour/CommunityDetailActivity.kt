@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityDetailCommunityBinding
 
-class DetailCommunityActivity : AppCompatActivity() {
+class CommunityDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailCommunityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

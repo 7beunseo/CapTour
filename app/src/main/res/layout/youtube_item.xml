@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@id/youtube_thumbnail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Video Title" />
+         />
 
     <TextView
         android:id="@+id/video_description"
@@ -34,7 +34,6 @@
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/video_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Video description here" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </LinearLayout>

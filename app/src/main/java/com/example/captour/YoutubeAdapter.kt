@@ -1,6 +1,8 @@
 package com.example.captour
 
 import android.R
+import android.content.Intent
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,13 +32,6 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
         val youtubeData = datas!![position]
 
         /*
-        Glide.with(binding.root)
-            .load(youtubeData.snippet.thumbnails.default.url)
-            // .override(400, 300)
-            .into(binding.videoThumbnail)
-
-         */
-        /*
         val context = holder.itemView.context
         val player = ExoPlayer.Builder(context).build()
         binding.playerView.player = player
@@ -51,7 +46,7 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
         Log.d("mobileapp", youtubeData.id.toString())
         binding.playerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = youtubeData.id.toString() //재생을 원하는 YouTube 비디오의 videoID
+                val videoId = youtubeData.id.toString() // 유튜브 재생 안됨 -> 섬네일로 바꿈
                 youTubePlayer.loadVideo(videoId, 0f)
             }
         })
@@ -63,8 +58,16 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
             .load(youtubeData.snippet.thumbnails.default.url)
             .into(binding.youtubeThumbnail)
 
-        binding.youtubeThumbnail.setOnClickListener {
+        val context = holder.itemView.context
 
+        binding.youtubeThumbnail.setOnClickListener {
+            Intent(context, YoutubeDetailActivity::class.java).apply {
+                putExtra("title", youtubeData.snippet.title)
+                putExtra("description", youtubeData.snippet.description)
+                putExtra("videoId", youtubeData.id.videoId.toString())
+            }.run {
+                context.startActivity(this)
+            }
         }
 
         binding.videoDescription.text = youtubeData.snippet.description

@@ -25,7 +25,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".DetailCommunityActivity"
+            android:name=".YoutubeDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CommunityDetailActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity

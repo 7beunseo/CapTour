@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.CommunityItemBinding
-import com.example.captour.databinding.ItemRecyclerviewBinding
-import java.text.SimpleDateFormat
 
 
 class CommunityViewHolder(val binding: CommunityItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -40,7 +38,7 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
 
                 holder.binding.root.setOnClickListener {
                     Toast.makeText(context, task.result.toString(), Toast.LENGTH_LONG).show()
-                    Intent(context, DetailCommunityActivity::class.java).apply {
+                    Intent(context, CommunityDetailActivity::class.java).apply {
                         putExtra("title", data.title)
                         putExtra("email", data.email)
                         putExtra("dateTime", data.date_time)
@@ -58,7 +56,7 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
         // 이미지 없는 경우
         holder.binding.root.setOnClickListener {
             Toast.makeText(context, "Root", Toast.LENGTH_LONG).show()
-            Intent(context, DetailCommunityActivity::class.java).apply {
+            Intent(context, CommunityDetailActivity::class.java).apply {
                 putExtra("title", data.title)
                 putExtra("email", data.email)
                 putExtra("dateTime", data.date_time)
