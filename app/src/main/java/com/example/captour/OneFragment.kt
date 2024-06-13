@@ -1,6 +1,7 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentOneBinding
+import com.example.captour.databinding.ItemRecyclerviewBinding
 import com.example.ch17_storage2.MyAdapter
 import java.io.BufferedReader
 import java.io.File
@@ -39,12 +42,15 @@ class OneFragment : Fragment() {
         }
     }
 
+    lateinit var sharedPreference: SharedPreferences
+    lateinit var binding: FragmentOneBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentOneBinding.inflate(inflater, container, false)
+        binding = FragmentOneBinding.inflate(inflater, container, false)
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         val datas = mutableListOf<String>()
 
@@ -95,6 +101,18 @@ class OneFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+        binding.totoTitle.textSize = fontSize  + 10f
+
+        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
+        recyclerView.title.textSize = fontSize / 16.0f
+
     }
 
     companion object {

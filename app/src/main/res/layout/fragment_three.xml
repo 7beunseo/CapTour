@@ -11,6 +11,15 @@
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="나에게 하고 싶은 말"
+        android:id="@+id/forMe"
+        />
+
+    <TextView
+        android:textSize="20dp"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="안녕하세요"
         android:id="@+id/user"
         />

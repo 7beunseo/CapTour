@@ -1,6 +1,7 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import com.example.captour.databinding.FragmentThreeBinding
+import com.example.captour.databinding.ItemMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +30,7 @@ class ThreeFragment : Fragment() {
     private var param2: String? = null
 
     lateinit var binding: FragmentThreeBinding
-
+    lateinit var sharedPreference: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -98,5 +101,26 @@ class ThreeFragment : Fragment() {
             status.text = "로그인"
             user.text = "안녕하세요"
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        val fontSize = sharedPreference.getInt("font_size", 16)
+        var myMemo = ""
+        if(MyApplication.checkAuth()) {
+            myMemo = sharedPreference.getString("myMemeo", "\"${MyApplication.email}님\n의지를 담은 한마디를 작성해보세요\"")
+                .toString()
+        } else {
+            myMemo = "로그인을 진행하여 나에게 한마디를 남겨보세요"
+        }
+        binding.setting.textSize = fontSize + 1f
+        binding.user.textSize = fontSize + 1f
+        binding.login.textSize = fontSize + 1f
+        binding.forMe.textSize = fontSize + 1f
+
+        binding.forMe.text = myMemo
+
     }
 }

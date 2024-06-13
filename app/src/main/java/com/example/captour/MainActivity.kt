@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -17,6 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.captour.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.io.BufferedReader
 import java.io.File
@@ -24,6 +27,7 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var sharedPreference: SharedPreferences
+    var myFontSize = 0
 
     class MyFragmentAdapter(activity: FragmentActivity): FragmentStateAdapter(activity) {
         // 어떤 fragement를 다룰 것인지 변수를 선언해둠
@@ -107,11 +111,18 @@ class MainActivity : AppCompatActivity() {
 
          */
 
+    }
 
-
-
-
-
+    // tabs 글자 크기 변경 - 미완성
+    private fun setTabTextSize(tabLayout: TabLayout, textSize: Float) {
+        for (i in 0 until tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            if (tab != null) {
+                val tabTextView = (tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
+                val textView = tabTextView.findViewById<TextView>(com.google.android.material.R.id.tabMode)
+                textView?.textSize = textSize
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -132,5 +143,9 @@ class MainActivity : AppCompatActivity() {
         // val colorStateList = ContextCompat.getColorStateList(this, colorCode)
         binding.tabs.tabIconTint = colorStateList
         binding.tabs.tabTextColors = colorStateList
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        setTabTextSize(binding.tabs, fontSize + 1f)
     }
+
 }

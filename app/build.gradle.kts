@@ -91,4 +91,7 @@ dependencies {
     // login
     implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
     implementation("androidx.multidex:multidex:2.0.1")
+
+    // setting
+    implementation ("androidx.preference:preference:1.1.1")
 }

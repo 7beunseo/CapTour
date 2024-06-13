@@ -1,10 +1,11 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="CookBook 설정">
+    <PreferenceCategory android:title="CookBook 설정">
 
         <EditTextPreference
-            app:key="theme"
-            app:title="CookBook"
+            app:key="myMemeo"
+            app:title="자신에게 하고 싶은 말"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -15,20 +16,29 @@
             app:title="테마 색상 설정"
             app:useSimpleSummaryProvider="true" />
 
+        <SeekBarPreference
+            android:key="font_size"
+            android:title="글자 크기 설정"
+            android:defaultValue="16"
+            android:min="10"
+            android:max="30"
+            app:showSeekBarValue="true"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory android:title="@string/sync_header">
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            android:key="sync"
+            android:title="@string/sync_title" />
 
         <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            android:dependency="sync"
+            android:key="attachment"
+            android:summaryOff="@string/attachment_summary_off"
+            android:summaryOn="@string/attachment_summary_on"
+            android:title="@string/attachment_title" />
 
     </PreferenceCategory>
 

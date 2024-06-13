@@ -1,14 +1,18 @@
 package com.example.captour
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentTwoBinding
+import com.example.captour.databinding.ItemMainBinding
+import com.example.captour.databinding.ItemRecyclerviewBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +31,8 @@ class TwoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var binding : FragmentTwoBinding
+    lateinit var sharedPreference: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +47,8 @@ class TwoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentTwoBinding.inflate(inflater, container, false)
+        binding = FragmentTwoBinding.inflate(inflater, container, false)
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
 
         val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
@@ -100,6 +107,19 @@ class TwoFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+        binding.search.textSize = fontSize + 1f
+        binding.btnSearch.textSize = fontSize + 1f
+
+        val recyclerView = ItemMainBinding.inflate(layoutInflater)
+        recyclerView.galTitle.textSize = fontSize + 3f
+
     }
 
     companion object {
