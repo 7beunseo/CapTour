@@ -74,4 +74,13 @@
         android:id="@+id/googleLoginBtn"
         android:layout_marginTop="20dp"
         android:visibility="gone"/>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="네이버인증"
+        android:src="@drawable/btn_naver"
+        android:id="@+id/naverLoginBtn"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -11,6 +11,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfile
+import com.navercorp.nid.profile.data.NidProfileResponse
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityAuthBinding
@@ -83,6 +89,8 @@ class AuthActivity : AppCompatActivity() {
 
         binding.logoutBtn.setOnClickListener {
             MyApplication.auth.signOut()
+            // 네이버 로그아웃
+            NaverIdLoginSDK.logout()
             MyApplication.email = null
             // changeVisivility("login")
             Log.d("mobileapp", "로그 아웃")
@@ -169,6 +177,40 @@ class AuthActivity : AppCompatActivity() {
         }
         */
 
+        // 네이버 로그인
+        binding.naverLoginBtn.setOnClickListener {
+            val oAuthLoginCallback = object: OAuthLoginCallback {
+                override fun onError(errorCode: Int, message: String) {
+
+                }
+
+                override fun onFailure(httpStatus: Int, message: String) {
+
+                }
+
+                override fun onSuccess() {
+                    // 네이버 로그인 API 호출 성공 시 유저 정보를 가져옴
+                    NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                        override fun onSuccess(result: NidProfileResponse) { /// 사용자의 이메일 정보가 NidProfileResponse 에 담김 -> email에 담음
+                            MyApplication.email = result.profile?.email.toString()
+                            finish()
+                        }
+
+                        override fun onError(errorCode: Int, message: String) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onFailure(httpStatus: Int, message: String) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                }
+
+            }
+            NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "Captour")
+            NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+        }
+
     }
 
     fun changeVisibility(mode:String){
@@ -183,6 +225,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.GONE
                 loginBtn.visibility= View.GONE
                 googleLoginBtn.visibility = View.GONE
+                naverLoginBtn.visibility = View.GONE
             }
         }
         else if(mode.equals("logout")){
@@ -196,6 +239,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.GONE
                 loginBtn.visibility= View.VISIBLE
                 googleLoginBtn.visibility = View.VISIBLE
+                naverLoginBtn.visibility = View.VISIBLE
             }
         }else if(mode.equals("signin")){
             binding.run{
@@ -207,6 +251,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.VISIBLE
                 loginBtn.visibility= View.GONE
                 googleLoginBtn.visibility = View.GONE
+                naverLoginBtn.visibility = View.GONE
             }
         }
     }

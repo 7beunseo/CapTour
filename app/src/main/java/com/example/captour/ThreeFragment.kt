@@ -94,7 +94,8 @@ class ThreeFragment : Fragment() {
         val status = binding.login
         val user = binding.user
 
-        if(MyApplication.checkAuth()) {
+        Log.d("mobileapp", MyApplication.email.toString())
+        if(MyApplication.checkAuth() || MyApplication.email != null) {
             status.text = "로그아웃"
             user.text = "${MyApplication.email}님\n반갑습니다"
         } else {
