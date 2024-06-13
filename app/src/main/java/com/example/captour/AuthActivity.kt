@@ -90,7 +90,7 @@ class AuthActivity : AppCompatActivity() {
         binding.logoutBtn.setOnClickListener {
             MyApplication.auth.signOut()
             // 네이버 로그아웃
-            NaverIdLoginSDK.logout()
+            // NaverIdLoginSDK.logout()
             MyApplication.email = null
             // changeVisivility("login")
             Log.d("mobileapp", "로그 아웃")
@@ -178,6 +178,7 @@ class AuthActivity : AppCompatActivity() {
         */
 
         // 네이버 로그인
+        /*
         binding.naverLoginBtn.setOnClickListener {
             val oAuthLoginCallback = object: OAuthLoginCallback {
                 override fun onError(errorCode: Int, message: String) {
@@ -211,6 +212,8 @@ class AuthActivity : AppCompatActivity() {
             NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
         }
 
+         */
+
     }
 
     fun changeVisibility(mode:String){
@@ -225,7 +228,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.GONE
                 loginBtn.visibility= View.GONE
                 googleLoginBtn.visibility = View.GONE
-                naverLoginBtn.visibility = View.GONE
+                // naverLoginBtn.visibility = View.GONE
             }
         }
         else if(mode.equals("logout")){
@@ -239,7 +242,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.GONE
                 loginBtn.visibility= View.VISIBLE
                 googleLoginBtn.visibility = View.VISIBLE
-                naverLoginBtn.visibility = View.VISIBLE
+                // naverLoginBtn.visibility = View.VISIBLE
             }
         }else if(mode.equals("signin")){
             binding.run{
@@ -251,7 +254,7 @@ class AuthActivity : AppCompatActivity() {
                 signBtn.visibility = View.VISIBLE
                 loginBtn.visibility= View.GONE
                 googleLoginBtn.visibility = View.GONE
-                naverLoginBtn.visibility = View.GONE
+                // naverLoginBtn.visibility = View.GONE
             }
         }
     }
