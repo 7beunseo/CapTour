@@ -22,7 +22,7 @@ class FollowListActivity : AppCompatActivity() {
 
         // 팔로우 조회
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.30.1.81:8080/captour/")
+            .baseUrl("http://172.30.1.4:8080/captour/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

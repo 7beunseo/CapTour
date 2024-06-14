@@ -5,8 +5,6 @@ import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.captour.databinding.FollowItemBinding
 
@@ -30,11 +28,10 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
 
         binding.following.setOnClickListener {
             Log.d("mobileapp", "in-adapter")
-            val intent = Intent(Intent.ACTION_SEND, Uri.parse("mailto:${followdata.following}"))
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:${followdata.following}")
+            }
             context.startActivity(intent)
-            true
         }
-
     }
-
 }

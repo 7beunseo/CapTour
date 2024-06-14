@@ -51,13 +51,47 @@ class CommunityDetailActivity : AppCompatActivity() {
         if(MyApplication.email.toString() != binding.email.text.toString()) {
             // Log.d("mobileapp", MyApplication.email.toString())
             // Log.d("mobileapp", binding.email.toString())
-            binding.followBtn.visibility = View.VISIBLE
+
+            // 팔로우 상태 확인
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://172.30.1.4:8080/captour/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(NetworkService::class.java)
+            val call =
+                apiService.getFollowStatus(
+                    follower = MyApplication.email.toString(),
+                    following = binding.email.text.toString()
+                )
+
+            call?.enqueue(object : Callback<FollowJsonResponse> {
+                override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
+                    response.body()?.toString()?.let { Log.d("mobileapp", it) }
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 완료", Toast.LENGTH_LONG).show()
+                    if(response.body()?.message == "true") {
+                        binding.followBtn.visibility = View.GONE
+                        binding.followCancleBtn.visibility = View.VISIBLE
+                    } else {
+                        binding.followBtn.visibility = View.VISIBLE
+                        binding.followCancleBtn.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
+                    // Log.d("mobileapp", t.toString())
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 실패", Toast.LENGTH_LONG).show()
+
+                }
+            })
         }
+
+
 
         binding.followBtn.setOnClickListener {
             // 팔로우 생성
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.30.1.81:8080/captour/")
+                .baseUrl("http://172.30.1.4:8080/captour/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -72,6 +106,11 @@ class CommunityDetailActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     // Log.d("mobileapp", response.message())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
+
+                    // 화면 다시 조회
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {

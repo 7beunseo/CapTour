@@ -55,6 +55,7 @@ interface NetworkService {
         @Query("maxResults") maxResults: Int = 25
     ): Call<YoutubeJsonResponse>
 
+    // 팔로우
     // http://127.0.0.1:8080/captour/create-follow?follower=kimes&following=kimtj
     @GET("create-follow")
     fun createFollow(
@@ -62,10 +63,18 @@ interface NetworkService {
         @Query("following") following: String
     ): Call<FollowJsonResponse>
 
+    // 팔로잉 목록 조회
     // http://127.0.0.1:8080/captour/read-follow?follower=kimes
     @GET("read-follow")
     fun readFollow (
         @Query("follower") follower: String
     ): Call<FollowJsonResponse>
 
+    // 팔로우 상태인지 확인
+    // http://127.0.0.1:8080/captour/get-follow-status?follower=20220961@duksung.ac.kr&following=kimes0403@gmail.com
+    @GET("get-follow-status")
+    fun getFollowStatus (
+        @Query("follower") follower: String,
+        @Query("following") following: String
+    ): Call<FollowJsonResponse>
 }
