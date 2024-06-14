@@ -2,19 +2,56 @@ package com.example.captour
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.content.Intent
 import android.os.Handler
-
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        val imageView = findViewById<ImageView>(R.id.imageView)
+        val flashView = findViewById<ImageView>(R.id.flashView)
+        val textView = findViewById<LinearLayout>(R.id.textView)
+        val zoomInAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
+        val flashAnimation = AnimationUtils.loadAnimation(this, R.anim.flash)
+        val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+
+        zoomInAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                flashView.visibility = View.VISIBLE
+                flashView.startAnimation(flashAnimation)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+
+        flashAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                flashView.visibility = View.GONE
+                imageView.visibility = View.GONE
+                textView.visibility = View.VISIBLE
+                textView.startAnimation(fadeInAnimation)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+
+        imageView.startAnimation(zoomInAnimation)
+
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, 1000)  // 3초 후에 MainActivity로 전환 -> 임시로 1초로 바꿈
+        }, 3500)  // 3.5초 후에 MainActivity로 전환
     }
 }
