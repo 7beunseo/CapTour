@@ -2,6 +2,7 @@ package com.example.captour
 
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -91,7 +92,7 @@ interface NetworkService {
 
     // 팔로우 취소
     // http://127.0.0.1:8080/captour/delete-follow?follower=kimeeessss@naver.com&following=kimes0403@gmail.com
-    @GET("delete-follow")
+    @DELETE("delete-follow")
     fun deleteFollow (
         @Query("follower") follower: String,
         @Query("following") following: String

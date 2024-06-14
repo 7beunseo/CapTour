@@ -117,6 +117,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 .build()
 
             val apiService = retrofit.create(NetworkService::class.java)
+
             val call =
                 apiService.deleteFollow(
                     follower = MyApplication.email.toString(),

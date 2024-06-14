@@ -48,6 +48,7 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
                 .build()
 
             val apiService = retrofit.create(NetworkService::class.java)
+
             val call =
                 apiService.deleteFollow(
                     follower = MyApplication.email.toString(),
