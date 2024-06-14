@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     tab.text = "커뮤니티"
                 }
                 1 -> {
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.recipe)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.captour_logo)
                     tab.text = "레시피"
                 }
                 2 -> {

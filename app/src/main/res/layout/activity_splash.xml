@@ -26,14 +26,51 @@
       android:visibility="gone"
       android:layout_centerInParent="true">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="여행을 찍다"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_centerInParent="true"
-        android:visibility="visible"/>
+        android:orientation="horizontal">
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="여"
+          android:textSize="24sp"
+          android:textColor="#F37F1E"
+          android:layout_centerInParent="true"
+          android:visibility="visible"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="행"
+          android:textSize="24sp"
+          android:textColor="#AD2D84"
+          android:layout_centerInParent="true"
+          android:visibility="visible"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="을"
+          android:textSize="24sp"
+          android:textColor="@android:color/black"
+          android:layout_centerInParent="true"
+          android:visibility="visible"/>
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=" 찍다"
+          android:textSize="24sp"
+          android:textColor="#363C90"
+          android:layout_centerInParent="true"
+          android:visibility="visible"/>
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"

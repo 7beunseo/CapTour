@@ -1,13 +1,24 @@
 package com.example.captour
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.content.Intent
+import android.os.Handler
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.media.AudioAttributes
+import android.media.RingtoneManager
+import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityDetailCommunityBinding
 import retrofit2.Call
@@ -25,7 +36,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val title = intent.getStringExtra("title")
@@ -41,6 +52,15 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.content.text = content
         binding.ratingBar.rating = stars
 
+        val permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions() ) {
+            if (it.all { permission -> permission.value == true }) {
+                noti("${binding.email.text.toString()} 팔로우 시작")
+            } else {
+                Toast.makeText(this, "permission denied...", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(this)
                 .load(imageUrl)
@@ -48,10 +68,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             binding.imageView.visibility = View.VISIBLE
         }
 
-        if(MyApplication.email.toString() != binding.email.text.toString()) {
-            // Log.d("mobileapp", MyApplication.email.toString())
-            // Log.d("mobileapp", binding.email.toString())
-
+        if (MyApplication.email.toString() != binding.email.text.toString()) {
             // 팔로우 상태 확인
             val retrofit = Retrofit.Builder()
                 .baseUrl("http://172.30.1.4:8080/captour/")
@@ -69,7 +86,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     response.body()?.toString()?.let { Log.d("mobileapp", it) }
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 완료", Toast.LENGTH_LONG).show()
-                    if(response.body()?.message == "true") {
+                    if (response.body()?.message == "true") {
                         binding.followBtn.visibility = View.GONE
                         binding.followCancleBtn.visibility = View.VISIBLE
                     } else {
@@ -79,9 +96,7 @@ class CommunityDetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
-                    // Log.d("mobileapp", t.toString())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 실패", Toast.LENGTH_LONG).show()
-
                 }
             })
         }
@@ -112,13 +127,10 @@ class CommunityDetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
-                    // Log.d("mobileapp", t.toString())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 삭제 실패", Toast.LENGTH_LONG).show()
-
                 }
             })
         }
-
 
         binding.followBtn.setOnClickListener {
             // 팔로우 생성
@@ -136,8 +148,20 @@ class CommunityDetailActivity : AppCompatActivity() {
 
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
-                    // Log.d("mobileapp", response.message())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(this@CommunityDetailActivity, "android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED) {
+                            Log.d("mobileapp","noti()-first")
+                            noti("${binding.email.text.toString()} 팔로우 시작")
+                        } else {
+                            Log.d("mobileapp","permission-err")
+                            permissionLauncher.launch(arrayOf("android.permission.POST_NOTIFICATIONS"))
+                        }
+                    } else {
+                        Log.d("mobileapp","noti()-second")
+                        noti("${binding.email.text.toString()} 팔로우 시작")
+                    }
 
                     // 화면 다시 조회
                     val intent = intent
@@ -146,12 +170,53 @@ class CommunityDetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
-                    // Log.d("mobileapp", t.toString())
                     Toast.makeText(this@CommunityDetailActivity, "팔로우 실패", Toast.LENGTH_LONG).show()
-
                 }
             })
         }
+    }
+
+    fun noti(message: String = "알림") { // 알림창을 띄움
+        val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        Log.d("mobileapp", "noti-in")
+        val builder: NotificationCompat.Builder
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {     // 26 버전 이상
+            val channelId = "one-channel"
+            val channelName = "My Channel One"
+            val channel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {   // 채널에 다양한 정보 설정
+                description = "My Channel One Description"
+                setShowBadge(true)  // 앱 런처 아이콘 상단에 숫자 배지를 표시할지 여부를 지정
+                val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val audioAttributes = AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .build()
+                setSound(uri, audioAttributes) // 소리 발생하지 않게 해도 됨
+                enableVibration(true)
+            }
+            // 채널을 NotificationManager에 등록
+            manager.createNotificationChannel(channel)
+            // 채널을 이용하여 builder 생성
+            builder = NotificationCompat.Builder(this, channelId)
+        } else {  // 26 버전 이하
+            builder = NotificationCompat.Builder(this)
+        }
+
+        // 알림의 기본 정보
+        builder.run {
+            setSmallIcon(R.drawable.captour_logo)
+            setWhen(System.currentTimeMillis())
+            setContentTitle("CapTour")
+            setContentText(message)
+            // setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_launcher))
+        }
+
+        manager.notify(11, builder.build())
     }
 
     override fun onSupportNavigateUp(): Boolean {
