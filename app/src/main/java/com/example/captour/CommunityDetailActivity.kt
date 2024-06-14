@@ -86,6 +86,38 @@ class CommunityDetailActivity : AppCompatActivity() {
             })
         }
 
+        binding.followCancleBtn.setOnClickListener {
+            // 팔로우 취소
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://172.30.1.4:8080/captour/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(NetworkService::class.java)
+            val call =
+                apiService.deleteFollow(
+                    follower = MyApplication.email.toString(),
+                    following = binding.email.text.toString()
+                )
+
+            call?.enqueue(object : Callback<FollowJsonResponse> {
+                override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
+                    response.body()?.toString()?.let { Log.d("mobileapp", it) }
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
+
+                    // 화면 다시 조회
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
+                }
+
+                override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
+                    // Log.d("mobileapp", t.toString())
+                    Toast.makeText(this@CommunityDetailActivity, "팔로우 삭제 실패", Toast.LENGTH_LONG).show()
+
+                }
+            })
+        }
 
 
         binding.followBtn.setOnClickListener {

@@ -77,4 +77,12 @@ interface NetworkService {
         @Query("follower") follower: String,
         @Query("following") following: String
     ): Call<FollowJsonResponse>
+
+    // 팔로우 취소
+    // http://127.0.0.1:8080/captour/delete-follow?follower=kimeeessss@naver.com&following=kimes0403@gmail.com
+    @GET("delete-follow")
+    fun deleteFollow (
+        @Query("follower") follower: String,
+        @Query("following") following: String
+    ): Call<FollowJsonResponse>
 }
