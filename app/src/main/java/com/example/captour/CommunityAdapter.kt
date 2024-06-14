@@ -37,7 +37,6 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
                     .into(holder.binding.imageView)
 
                 holder.binding.root.setOnClickListener {
-                    Toast.makeText(context, task.result.toString(), Toast.LENGTH_LONG).show()
                     Intent(context, CommunityDetailActivity::class.java).apply {
                         putExtra("title", data.title)
                         putExtra("email", data.email)
@@ -55,7 +54,6 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
 
         // 이미지 없는 경우
         holder.binding.root.setOnClickListener {
-            Toast.makeText(context, "Root", Toast.LENGTH_LONG).show()
             Intent(context, CommunityDetailActivity::class.java).apply {
                 putExtra("title", data.title)
                 putExtra("email", data.email)

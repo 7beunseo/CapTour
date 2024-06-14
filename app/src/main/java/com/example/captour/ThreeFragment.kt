@@ -2,6 +2,8 @@ package com.example.captour
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +15,7 @@ import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.example.captour.databinding.FragmentThreeBinding
 import com.example.captour.databinding.ItemMainBinding
+import com.example.captour.databinding.ItemRecyclerviewBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -128,7 +131,16 @@ class ThreeFragment : Fragment() {
         binding.forMe.textSize = fontSize + 1f
         binding.followingList.textSize = fontSize + 1f
 
-        binding.forMe.text = myMemo
+        binding.forMe.text = "나에게 한마디\n" + myMemo
+
+        // 글자 크기 설정
+        binding.totoTitle.textSize = fontSize + 10f
+
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.totoTitle.setBackgroundColor(colorCode)
 
     }
 }

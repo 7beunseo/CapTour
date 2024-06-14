@@ -1,6 +1,8 @@
 package com.example.captour
 
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -114,12 +116,17 @@ class TwoFragment : Fragment() {
 
         // 글자 크기 설정
         val fontSize = sharedPreference.getInt("font_size", 16)
-        binding.search.textSize = fontSize + 1f
-        binding.btnSearch.textSize = fontSize + 1f
+        binding.totoTitle.textSize = fontSize + 10f
 
-        val recyclerView = ItemMainBinding.inflate(layoutInflater)
-        recyclerView.galTitle.textSize = fontSize + 3f
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.totoTitle.setBackgroundColor(colorCode)
+        binding.btnSearch.setBackgroundColor(colorCode)
 
+        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
+        recyclerView.title.textSize = fontSize / 16.0f
     }
 
     companion object {

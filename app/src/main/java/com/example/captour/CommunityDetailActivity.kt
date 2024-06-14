@@ -5,9 +5,12 @@ import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Handler
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
@@ -19,8 +22,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityDetailCommunityBinding
+import com.example.captour.databinding.ItemRecyclerviewBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,11 +34,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CommunityDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailCommunityBinding
+    lateinit var sharedPreference: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailCommunityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
 
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
@@ -221,5 +229,26 @@ class CommunityDetailActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+        binding.title.textSize = fontSize + 10f
+
+        binding.email.textSize = fontSize + 1f
+        binding.title.textSize = fontSize + 1f
+        binding.content.textSize = fontSize + 1f
+        binding.dateTime.textSize = fontSize + 1f
+
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.toolbar.setBackgroundColor(colorCode)
+        binding.followCancleBtn.setBackgroundColor(colorCode)
+        binding.followBtn.setBackgroundColor(colorCode)
     }
 }

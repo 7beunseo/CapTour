@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 1 -> {
                     tab.icon = ContextCompat.getDrawable(this, R.drawable.captour_logo)
-                    tab.text = "레시피"
+                    tab.text = "검색"
                 }
                 2 -> {
                     tab.icon = ContextCompat.getDrawable(this, R.drawable.user)

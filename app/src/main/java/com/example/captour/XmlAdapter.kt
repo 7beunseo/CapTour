@@ -41,7 +41,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
             // .override(400, 300)
             .into(binding.image)
 
-        binding.searchYoutube.setOnClickListener{
+        binding.root.setOnClickListener{
 
             val context = holder.itemView.context
             val intent = Intent(context, YoutubeActivity::class.java)

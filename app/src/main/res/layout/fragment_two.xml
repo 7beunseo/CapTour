@@ -6,6 +6,16 @@
     android:orientation="vertical"
     tools:context=".TwoFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/totoTitle"
+        android:text="검색"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:background="#aaccdd"
+        android:gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +32,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="검색"
             android:id="@+id/btnSearch"
             />

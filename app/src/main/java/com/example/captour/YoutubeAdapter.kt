@@ -53,7 +53,7 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
 
         val context = holder.itemView.context
 
-        binding.youtubeThumbnail.setOnClickListener {
+        binding.root.setOnClickListener {
             Intent(context, YoutubeDetailActivity::class.java).apply {
                 putExtra("title", youtubeData.snippet.title)
                 putExtra("description", youtubeData.snippet.description)

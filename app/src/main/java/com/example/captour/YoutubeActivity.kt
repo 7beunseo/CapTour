@@ -1,9 +1,13 @@
 package com.example.captour
 
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.widget.Toolbar
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.ActivityYoutubeBinding
@@ -15,12 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class YoutubeActivity : AppCompatActivity() {
     lateinit var binding: ActivityYoutubeBinding
+    lateinit var sharedPreference: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // setContentView(R.layout.activity_youtube)
 
         binding = ActivityYoutubeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
 
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar);
@@ -78,5 +85,18 @@ class YoutubeActivity : AppCompatActivity() {
 
     override fun isLocalVoiceInteractionSupported(): Boolean {
         return super.isLocalVoiceInteractionSupported()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.toolbar.setBackgroundColor(colorCode)
     }
 }

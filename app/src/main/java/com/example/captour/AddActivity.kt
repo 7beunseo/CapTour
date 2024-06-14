@@ -2,6 +2,9 @@ package com.example.captour
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityAddBinding
 import java.io.File
@@ -26,12 +30,15 @@ class AddActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddBinding
     lateinit var uri : Uri
+    lateinit var sharedPreference: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
 
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar);
@@ -129,5 +136,22 @@ class AddActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+        binding.title.textSize = fontSize + 10f
+        binding.content.textSize = fontSize + 1f
+
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.toolbar.setBackgroundColor(colorCode)
+        binding.upload.setBackgroundColor(colorCode)
+        binding.btnWrite.setBackgroundColor(colorCode)
     }
 }
