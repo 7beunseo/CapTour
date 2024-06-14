@@ -126,6 +126,7 @@ class ThreeFragment : Fragment() {
         binding.user.textSize = fontSize + 1f
         binding.login.textSize = fontSize + 1f
         binding.forMe.textSize = fontSize + 1f
+        binding.followingList.textSize = fontSize + 1f
 
         binding.forMe.text = myMemo
 
