@@ -1,7 +1,9 @@
 package com.example.captour
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 // https://apis.data.go.kr/B551011/PhotoGalleryService1/galleryList1?serviceKey=APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj%2B2GQ3TpsgbH%2FKaUWDEMV5ApISg%3D%3D&arrange=A&MobileOS=ETC&MobileApp=CapTour&numOfRows=10&pageNo=1
@@ -55,12 +57,21 @@ interface NetworkService {
         @Query("maxResults") maxResults: Int = 25
     ): Call<YoutubeJsonResponse>
 
-    // 팔로우
+    // 팔로우 생성 (GET) - 사용 x
     // http://127.0.0.1:8080/captour/create-follow?follower=kimes&following=kimtj
+    /*
     @GET("create-follow")
     fun createFollow(
         @Query("follower") follower: String,
         @Query("following") following: String
+    ): Call<FollowJsonResponse>
+     */
+
+    // 팔로우 생성 (POST)
+    // http://127.0.0.1:8080/captour/create-follow
+    @POST("create-follow")
+    fun createFollow(
+        @Body followRequest: Follow
     ): Call<FollowJsonResponse>
 
     // 팔로잉 목록 조회

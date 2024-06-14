@@ -142,17 +142,21 @@ class CommunityDetailActivity : AppCompatActivity() {
 
         binding.followBtn.setOnClickListener {
             // 팔로우 생성
+
             val retrofit = Retrofit.Builder()
                 .baseUrl("http://172.30.1.4:8080/captour/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             val apiService = retrofit.create(NetworkService::class.java)
+
+            val followRequest = Follow(
+                follower = MyApplication.email.toString(),
+                following = binding.email.text.toString()
+            )
+
             val call =
-                apiService.createFollow(
-                    follower = MyApplication.email.toString(),
-                    following = binding.email.text.toString()
-                )
+                apiService.createFollow(followRequest)
 
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
@@ -160,7 +164,6 @@ class CommunityDetailActivity : AppCompatActivity() {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (ContextCompat.checkSelfPermission(this@CommunityDetailActivity, "android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED) {
-                            Log.d("mobileapp","noti()-first")
                             noti("${binding.email.text.toString()} 팔로우 시작")
                         } else {
                             Log.d("mobileapp","permission-err")
