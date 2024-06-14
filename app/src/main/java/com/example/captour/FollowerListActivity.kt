@@ -6,6 +6,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.PreferenceManager
@@ -70,12 +71,12 @@ class FollowerListActivity : AppCompatActivity() {
         })
 
         // 팔로워 통계 조회
-        val statisticsCall =
+        val weekStatisticsCall =
             apiService.weekStatistics(
                 following = MyApplication.email.toString()
             )
 
-        statisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
+        weekStatisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
             override fun onResponse(call: Call<FollowerStatisticsJsonResponse>, response: Response<FollowerStatisticsJsonResponse>) {
                 Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
 
@@ -98,7 +99,7 @@ class FollowerListActivity : AppCompatActivity() {
                 linedataset.lineWidth = 5f
                 linedataset.setCircleColor(Color.MAGENTA)
                 val linedata = LineData(linedataset)
-                binding.lineChart.data = linedata
+                binding.weekLineChart.data = linedata
 
             }
 
@@ -109,6 +110,62 @@ class FollowerListActivity : AppCompatActivity() {
             }
         })
 
+        val monthStatisticsCall =
+            apiService.monthStatistics(
+                following = MyApplication.email.toString()
+            )
+
+        monthStatisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
+            override fun onResponse(call: Call<FollowerStatisticsJsonResponse>, response: Response<FollowerStatisticsJsonResponse>) {
+                Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
+
+                val follower_values = ArrayList<Entry>(7)
+
+                val datas = response.body()?.data
+                datas?.let {
+                    for(data in it) {
+                        val entry = Entry(data.day.toFloat(), data.followerNum.toFloat())
+                        follower_values.add(entry)
+                    }
+                }
+
+                // Log.d("mobileapp",follower_values.reversed().toString() )
+
+                val linedataset = LineDataSet(follower_values, "LineDataSet") // reverse해주어야 출력됨!
+
+                val color = sharedPreference.getString("color", "#363C90")
+                val colorCode = Color.parseColor(color)
+                linedataset.color = colorCode
+
+                linedataset.lineWidth = 5f
+                linedataset.setCircleColor(Color.MAGENTA)
+                val linedata = LineData(linedataset)
+                binding.monthLineChart.data = linedata
+
+            }
+
+            override fun onFailure(call: Call<FollowerStatisticsJsonResponse>, t: Throwable) {
+                Log.d("mobileapp", t.toString())
+                Toast.makeText(this@FollowerListActivity, "팔로워 조회 실패", Toast.LENGTH_LONG).show()
+
+            }
+        })
+
+        binding.week.setTextColor(Color.MAGENTA)
+
+        binding.month.setOnClickListener {
+            binding.weekLineChart.visibility = View.GONE
+            binding.monthLineChart.visibility = View.VISIBLE
+            binding.month.setTextColor(Color.MAGENTA)
+            binding.week.setTextColor(Color.WHITE)
+        }
+
+        binding.week.setOnClickListener {
+            binding.weekLineChart.visibility = View.VISIBLE
+            binding.monthLineChart.visibility = View.GONE
+            binding.month.setTextColor(Color.WHITE)
+            binding.week.setTextColor(Color.MAGENTA)
+        }
 
 
         // 그래프
@@ -149,6 +206,8 @@ class FollowerListActivity : AppCompatActivity() {
         val colorCode = Color.parseColor(color)
         val colorStateList = ColorStateList.valueOf(colorCode)
         binding.toolbar.setBackgroundColor(colorCode)
+        binding.week.setBackgroundColor(colorCode)
+        binding.month.setBackgroundColor(colorCode)
 
         val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
         recyclerView.title.textSize = fontSize / 16.0f

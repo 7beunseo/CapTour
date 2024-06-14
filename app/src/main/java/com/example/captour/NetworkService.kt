@@ -97,4 +97,9 @@ interface NetworkService {
     fun weekStatistics(
         @Query("following") following: String
     ): Call<FollowerStatisticsJsonResponse>
+
+    @GET("month-statistics")
+    fun monthStatistics(
+        @Query("following") following: String
+    ): Call<FollowerStatisticsJsonResponse>
 }
