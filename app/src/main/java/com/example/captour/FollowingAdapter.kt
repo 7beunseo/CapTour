@@ -6,16 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.captour.databinding.FollowItemBinding
+import com.example.captour.databinding.FollowingItemBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MyFollowViewHolder(val binding: FollowItemBinding) : RecyclerView.ViewHolder(binding.root)
+class MyFollowViewHolder(val binding: FollowingItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun getItemCount(): Int {
@@ -23,7 +22,7 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        MyFollowViewHolder(FollowItemBinding.inflate(LayoutInflater.from(parent.context), parent,false))
+        MyFollowViewHolder(FollowingItemBinding.inflate(LayoutInflater.from(parent.context), parent,false))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyFollowViewHolder).binding

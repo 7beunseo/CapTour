@@ -10,6 +10,11 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +54,14 @@ class SplashActivity : AppCompatActivity() {
 
         imageView.startAnimation(zoomInAnimation)
 
-        Handler().postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }, 3500)  // 3.5초 후에 MainActivity로 전환
+        val backgroundExe: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
+        val mainExe: Executor = ContextCompat.getMainExecutor(this)
+        backgroundExe.schedule({ // 스레드 실행 
+            mainExe.execute {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+        }, 3, TimeUnit.SECONDS
+        )
     }
 }

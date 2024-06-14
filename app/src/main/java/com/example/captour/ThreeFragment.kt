@@ -10,12 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.example.captour.databinding.FragmentThreeBinding
-import com.example.captour.databinding.ItemMainBinding
-import com.example.captour.databinding.ItemRecyclerviewBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,8 +51,12 @@ class ThreeFragment : Fragment() {
         }
 
         binding.followingList.setOnClickListener {
-            val follower = MyApplication.email.toString()
-            val intent = Intent(requireContext(), FollowListActivity::class.java)
+            val intent = Intent(requireContext(), FollowingListActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.followerList.setOnClickListener {
+            val intent = Intent(requireContext(), FollowerListActivity::class.java)
             startActivity(intent)
         }
 
@@ -67,11 +67,34 @@ class ThreeFragment : Fragment() {
 
             if(status.text.equals("로그인"))  {
                 intent.putExtra("status", "logout")
+                binding.forMe.visibility = View.VISIBLE
+                binding.followerList.visibility = View.VISIBLE
+                binding.followingList.visibility = View.VISIBLE
+                binding.setting.visibility = View.VISIBLE
             } else if(status.text.equals("로그아웃")) {
                 intent.putExtra("status", "login")
+                binding.forMe.visibility = View.GONE
+                binding.followerList.visibility = View.GONE
+                binding.followingList.visibility = View.GONE
+                binding.setting.visibility = View.GONE
             }
             startActivity(intent)
         }
+
+        /*
+        Log.d("mobileapp", binding.login.text.toString())
+        if(binding.login.text.equals("로그아웃")) {
+            binding.forMe.visibility = View.GONE
+            binding.followerList.visibility = View.GONE
+            binding.followingList.visibility = View.GONE
+            binding.setting.visibility = View.GONE
+        } else {
+            binding.forMe.visibility = View.VISIBLE
+            binding.followerList.visibility = View.VISIBLE
+            binding.followingList.visibility = View.VISIBLE
+            binding.setting.visibility = View.VISIBLE
+        }
+         */
 
         return binding.root
     }
@@ -130,6 +153,7 @@ class ThreeFragment : Fragment() {
         binding.login.textSize = fontSize + 1f
         binding.forMe.textSize = fontSize + 1f
         binding.followingList.textSize = fontSize + 1f
+        binding.followerList.textSize = fontSize + 1f
 
         binding.forMe.text = "나에게 한마디\n" + myMemo
 

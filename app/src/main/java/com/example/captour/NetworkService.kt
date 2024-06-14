@@ -65,8 +65,8 @@ interface NetworkService {
 
     // 팔로잉 목록 조회
     // http://127.0.0.1:8080/captour/read-follow?follower=kimes
-    @GET("read-follow")
-    fun readFollow (
+    @GET("read-following")
+    fun readFollowing (
         @Query("follower") follower: String
     ): Call<FollowJsonResponse>
 
@@ -83,6 +83,12 @@ interface NetworkService {
     @GET("delete-follow")
     fun deleteFollow (
         @Query("follower") follower: String,
+        @Query("following") following: String
+    ): Call<FollowJsonResponse>
+
+    // 팔로워 조회
+    @GET("read-follower")
+    fun readFollower (
         @Query("following") following: String
     ): Call<FollowJsonResponse>
 }
