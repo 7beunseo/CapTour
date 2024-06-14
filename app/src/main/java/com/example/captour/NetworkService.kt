@@ -91,4 +91,10 @@ interface NetworkService {
     fun readFollower (
         @Query("following") following: String
     ): Call<FollowJsonResponse>
+
+    // 7일간 팔로워 통계
+    @GET("week-statistics")
+    fun weekStatistics(
+        @Query("following") following: String
+    ): Call<FollowerStatisticsJsonResponse>
 }

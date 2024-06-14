@@ -107,4 +107,7 @@ dependencies {
     // 네이버
     implementation("com.navercorp.nid:oauth:5.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+
+    // 그래프
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

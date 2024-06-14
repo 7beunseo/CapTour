@@ -12,6 +12,9 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.ActivityFollwerListBinding
 import com.example.captour.databinding.ItemRecyclerviewBinding
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,13 +36,14 @@ class FollowerListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar);
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // 팔로우 조회
         val retrofit = Retrofit.Builder()
             .baseUrl("http://172.30.1.4:8080/captour/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(NetworkService::class.java)
+
+        // 팔로우 조회
         val call =
             apiService.readFollower(
                 following = MyApplication.email.toString()
@@ -64,6 +68,67 @@ class FollowerListActivity : AppCompatActivity() {
 
             }
         })
+
+        // 팔로워 통계 조회
+        val statisticsCall =
+            apiService.weekStatistics(
+                following = MyApplication.email.toString()
+            )
+
+        statisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
+            override fun onResponse(call: Call<FollowerStatisticsJsonResponse>, response: Response<FollowerStatisticsJsonResponse>) {
+                Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
+
+                val follower_values = ArrayList<Entry>(7)
+
+                val datas = response.body()?.data
+                datas?.let {
+                    for(data in it) {
+                        val entry = Entry(data.day.toFloat(), data.followerNum.toFloat())
+                        follower_values.add(entry)
+                    }
+                }
+
+                val linedataset = LineDataSet(follower_values.reversed(), "LineDataSet") // reverse해주어야 출력됨!
+
+                val color = sharedPreference.getString("color", "#363C90")
+                val colorCode = Color.parseColor(color)
+                linedataset.color = colorCode
+
+                linedataset.lineWidth = 5f
+                linedataset.setCircleColor(Color.MAGENTA)
+                val linedata = LineData(linedataset)
+                binding.lineChart.data = linedata
+
+            }
+
+            override fun onFailure(call: Call<FollowerStatisticsJsonResponse>, t: Throwable) {
+                Log.d("mobileapp", t.toString())
+                Toast.makeText(this@FollowerListActivity, "팔로워 조회 실패", Toast.LENGTH_LONG).show()
+
+            }
+        })
+
+
+
+        // 그래프
+/*
+        var line_values: ArrayList<Entry> = ArrayList()
+        // line_values.add(Entry(1, 2))
+        for(i in 0 until 10) {
+            var v = Math.random() * 10
+            line_values.add(Entry(i.toFloat(), v.toFloat()))
+        }
+        // Log.d("mobileapp", follower_values.toString())
+        val linedataset = LineDataSet(line_values, "LineDataSet")
+        linedataset.color = Color.GREEN
+        linedataset.lineWidth = 3f
+        linedataset.setCircleColor(Color.MAGENTA)
+        val linedata = LineData(linedataset)
+        binding.lineChart.data = linedata
+        */
+
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
