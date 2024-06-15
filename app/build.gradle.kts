@@ -110,4 +110,5 @@ dependencies {
 
     // 그래프
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }

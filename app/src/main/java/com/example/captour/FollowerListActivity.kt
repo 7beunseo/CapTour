@@ -38,7 +38,7 @@ class FollowerListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.30.1.4:8080/captour/")
+            .baseUrl("http://13.125.163.176/captour/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

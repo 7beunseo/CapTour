@@ -79,7 +79,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         if (MyApplication.email.toString() != binding.email.text.toString()) {
             // 팔로우 상태 확인
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.30.1.4:8080/captour/")
+                .baseUrl("http://13.125.163.176/captour/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -112,7 +112,7 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.followCancleBtn.setOnClickListener {
             // 팔로우 취소
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.30.1.4:8080/captour/")
+                .baseUrl("http://13.125.163.176/captour/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -145,7 +145,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             // 팔로우 생성
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.30.1.4:8080/captour/")
+                .baseUrl("http://13.125.163.176/captour/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 

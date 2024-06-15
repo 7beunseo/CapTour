@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentOneBinding
 import com.example.captour.databinding.ItemRecyclerviewBinding
-import com.example.ch17_storage2.MyAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.io.BufferedReader
