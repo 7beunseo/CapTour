@@ -24,9 +24,9 @@ __*여행을 찍다 : CapTour*__
 * 마이페이지에서 로그인을 진행할 수 있습니다.<br>
 * 로그인할 수 있는 항목은 일반 로그인(이메일 인증), 구글 로그인이 있습니다.(네이버 로그인 시 오류로 임시 주석 처리)<br>
 * 로그인을 할 경우 로그인 이메일이 마이페이지에 뜨며, 마이페이지 항목들을 볼 수 있습니다.<br>
-<img width="150px" height="360px" src="readme_image/img3.png">
-<img width="150px" height="360px" src="readme_image/img4.png">
-<img width="150px" height="360px" src="readme_image/img5.png">
+  <img width="150px" height="360px" src="readme_image/img3.png">
+  <img width="150px" height="360px" src="readme_image/img4.png">
+  <img width="150px" height="360px" src="readme_image/img5.png">
 
 ## 📌 커뮤니티
 * 제목, 내용, 총점, 이미지를 등록할 수 있습니다.
@@ -34,10 +34,10 @@ __*여행을 찍다 : CapTour*__
 * 만약 내가 작성한 글이라면 팔로우/팔로우 취소 버튼이 보이지 않습니다.
 * 만약 내가 작성한 글이 아니라면 팔로우 상태에 따라 팔로우/팔로우 취소 버튼이 나타납니다.
 * 새로 팔로우를 할 경우 알림 메세지가 뜹니다.<br>
-<img width="150px" height="360px" src="readme_image/img6.png">
-<img width="150px" height="360px" src="readme_image/img7.png">
-<img width="150px" height="360px" src="readme_image/img8.png">
-<img width="150px" height="360px" src="readme_image/img9.png">
+  <img width="150px" height="360px" src="readme_image/img6.png">
+  <img width="150px" height="360px" src="readme_image/img7.png">
+  <img width="150px" height="360px" src="readme_image/img8.png">
+  <img width="150px" height="360px" src="readme_image/img9.png">
   <img width="150px" height="360px" src="readme_image/img10.png">
   <img width="300px" height="70px" src="readme_image/img11.png">
 
