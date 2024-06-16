@@ -1,12 +1,17 @@
 package com.example.captour
 
+import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.preference.PreferenceManager
 import com.example.captour.databinding.ActivityAuthBinding
+import com.example.captour.databinding.ItemRecyclerviewBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -20,11 +25,15 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 
 class AuthActivity : AppCompatActivity() {
     lateinit var binding: ActivityAuthBinding
+    lateinit var sharedPreference: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
 
         changeVisibility(intent.getStringExtra("status").toString())
 
@@ -257,5 +266,26 @@ class AuthActivity : AppCompatActivity() {
                 // naverLoginBtn.visibility = View.GONE
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // 글자 크기 설정
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.goSignInBtn.setBackgroundColor(colorCode)
+        binding.loginBtn.setBackgroundColor(colorCode)
+        binding.googleLoginBtn.setBackgroundColor(colorCode)
+        binding.logoutBtn.setBackgroundColor(colorCode)
+        binding.naverLoginBtn.setBackgroundColor(colorCode)
+        binding.signBtn.setBackgroundColor(colorCode)
+
+        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
+        recyclerView.title.textSize = fontSize / 16.0f
     }
 }

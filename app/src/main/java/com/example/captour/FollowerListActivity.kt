@@ -54,7 +54,7 @@ class FollowerListActivity : AppCompatActivity() {
             override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                 Log.d("mobileapp", response.body()?.data.toString())
                 Toast.makeText(this@FollowerListActivity, "팔로워 조회 완료", Toast.LENGTH_LONG).show()
-                binding.currentUser.text = "팔로워 " + response.body()?.data?.count() + "명"
+                binding.currentUser.text = "팔로워 " + response.body()?.data?.count() ?: ""+0 + "명"
 
                 val adapter = FollowerAdapter(response.body()?.data)
                 binding.followRecyclerView.adapter = adapter
