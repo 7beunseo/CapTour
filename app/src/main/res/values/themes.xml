@@ -7,6 +7,9 @@
 
         <!-- 글꼴 지정 -->
         <item name="android:fontFamily">@font/custom_font_family</item>
+
+        <!-- 배경색 지정-->
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="Theme.CapTour" parent="Base.Theme.CapTour" />

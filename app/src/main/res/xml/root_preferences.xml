@@ -35,19 +35,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            android:key="sync"
-            android:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            android:dependency="sync"
-            android:key="attachment"
-            android:summaryOff="@string/attachment_summary_off"
-            android:summaryOn="@string/attachment_summary_on"
-            android:title="@string/attachment_title" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

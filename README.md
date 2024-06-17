@@ -65,3 +65,4 @@ __*여행을 찍다 : CapTour*__
   <img width="150px" height="360px" src="readme_image/img19.png">
   <img width="150px" height="360px" src="readme_image/img20.png">
 
+## 📌 설정 항목 변경

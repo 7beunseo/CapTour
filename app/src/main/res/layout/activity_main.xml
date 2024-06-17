@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:id="@+id/viewpager"
         android:layout_weight="1"
+        android:background="@color/white"
         />
 
     <com.google.android.material.tabs.TabLayout
@@ -21,6 +22,7 @@
         android:id="@+id/tabs"
         app:tabTextColor="@color/tab_color_selector"
         app:tabIconTint="@color/tab_color_selector"
+        android:background="@color/white"
         />
 
 
