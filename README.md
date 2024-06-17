@@ -1,7 +1,8 @@
-# CapTour
-__*여행을 찍다 : CapTour*__<br>
 <img width="300px" src="readme_image/img1.png">
 
+
+# CapTour
+__*여행을 찍다 : CapTour*__<br>
 <img width="300px" src="readme_image/splash_video.gif">
 
 
