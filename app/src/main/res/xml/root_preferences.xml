@@ -29,7 +29,7 @@
             app:defaultValue="1"
             app:entries="@array/my_font"
             app:entryValues="@array/my_font_valuies"
-            app:key="font"
+            app:key="font_style"
             app:title="테마 글꼴 두께 설정"
             app:useSimpleSummaryProvider="true" />
 

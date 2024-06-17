@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -165,6 +167,19 @@ class OneFragment : Fragment() {
         binding.mainFab.setBackgroundColor(colorCode)
 
         binding.mainFab.textSize = fontSize + 1f
+
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.nanum_bold)
+        }
+        binding.mainFab.typeface = typeface
+        binding.totoTitle.typeface = typeface
+        binding.last.typeface = typeface
     }
 
     companion object {

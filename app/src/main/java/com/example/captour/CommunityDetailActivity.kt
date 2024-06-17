@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Typeface
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
@@ -22,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ActivityDetailCommunityBinding
@@ -243,7 +245,6 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.title.textSize = fontSize + 10f
 
         binding.email.textSize = fontSize + 1f
-        binding.title.textSize = fontSize + 1f
         binding.content.textSize = fontSize + 1f
         binding.dateTime.textSize = fontSize + 1f
 
@@ -254,5 +255,22 @@ class CommunityDetailActivity : AppCompatActivity() {
         binding.toolbar.setBackgroundColor(colorCode)
         binding.followCancleBtn.setBackgroundColor(colorCode)
         binding.followBtn.setBackgroundColor(colorCode)
+
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_bold)
+        }
+        binding.title.typeface = typeface
+        binding.content.typeface = typeface
+        binding.email.typeface = typeface
+        binding.followBtn.typeface = typeface
+        binding.followCancleBtn.typeface = typeface
+        binding.dateTime.typeface = typeface
+
     }
 }

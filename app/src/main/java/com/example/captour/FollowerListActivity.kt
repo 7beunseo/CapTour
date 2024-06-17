@@ -3,12 +3,14 @@ package com.example.captour
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.ActivityFollwerListBinding
@@ -209,7 +211,17 @@ class FollowerListActivity : AppCompatActivity() {
         binding.week.setBackgroundColor(colorCode)
         binding.month.setBackgroundColor(colorCode)
 
-        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
-        recyclerView.title.textSize = fontSize / 16.0f
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_bold)
+        }
+        binding.currentUser.typeface = typeface
+        binding.month.typeface = typeface
+        binding.week.typeface = typeface
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -145,6 +147,8 @@ class AddActivity : AppCompatActivity() {
         val fontSize = sharedPreference.getInt("font_size", 16)
         binding.title.textSize = fontSize + 10f
         binding.content.textSize = fontSize + 1f
+        binding.info1.textSize = fontSize + 15f
+        binding.info2.textSize = fontSize + 15f
 
         // 색상 설정
         val color = sharedPreference.getString("color", "#363C90")
@@ -153,5 +157,21 @@ class AddActivity : AppCompatActivity() {
         binding.toolbar.setBackgroundColor(colorCode)
         binding.upload.setBackgroundColor(colorCode)
         binding.btnWrite.setBackgroundColor(colorCode)
+
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_bold)
+        }
+        binding.info1.typeface = typeface
+        binding.info2.typeface = typeface
+        binding.title.typeface = typeface
+        binding.content.typeface = typeface
+        binding.btnWrite.typeface = typeface
+        binding.upload.typeface = typeface
     }
 }

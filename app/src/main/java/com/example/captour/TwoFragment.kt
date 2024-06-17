@@ -3,12 +3,14 @@ package com.example.captour
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -127,8 +129,18 @@ class TwoFragment : Fragment() {
         binding.totoTitle.setBackgroundColor(colorCode)
         binding.btnSearch.setBackgroundColor(colorCode)
 
-        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
-        recyclerView.title.textSize = fontSize / 16.0f
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(requireContext(), R.font.nanum_bold)
+        }
+        binding.search.typeface = typeface
+        binding.btnSearch.typeface = typeface
+        binding.totoTitle.typeface = typeface
     }
 
     companion object {

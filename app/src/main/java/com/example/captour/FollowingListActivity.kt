@@ -3,11 +3,13 @@ package com.example.captour
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.ActivityFollowingListBinding
@@ -84,7 +86,5 @@ class FollowingListActivity : AppCompatActivity() {
         val colorStateList = ColorStateList.valueOf(colorCode)
         binding.toolbar.setBackgroundColor(colorCode)
 
-        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
-        recyclerView.title.textSize = fontSize / 16.0f
     }
 }

@@ -2,11 +2,13 @@ package com.example.captour
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.captour.databinding.FollowingItemBinding
@@ -77,5 +79,17 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
 
         binding.following.textSize = fontSize + 1f
         binding.followCancleBtn.textSize = fontSize + 1f
+
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(context, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(context, R.font.nanum_bold)
+        }
+        binding.following.typeface = typeface
+        binding.followCancleBtn.typeface = typeface
     }
 }

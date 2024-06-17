@@ -69,6 +69,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
 
         val context = holder.itemView.context
 
+        // 폰트 사이즈 설정
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
         val fontSize = sharedPreference.getInt("font_size", 16)
 
@@ -79,13 +80,23 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
         binding.searchYoutube.textSize = fontSize + 1f
         binding.galSearchKeyword.textSize = fontSize + 1f
 
-        val fontStyle = sharedPreference.getString("font", "NORMAL")
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
 
-        /*
-        val typeface = ResourcesCompat.getFont(context, R.font.nanum_bold)
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(context, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(context, R.font.nanum_bold)
+        }
+
         binding.galTitle.typeface = typeface
-        
-         */
+        binding.galPhotographyLocation.typeface = typeface
+        binding.galPhotographer.typeface = typeface
+        binding.searchYoutube.typeface = typeface
+        binding.galSearchKeyword.typeface = typeface
+        binding.galCreatedtime.typeface = typeface
+
 
     }
 }

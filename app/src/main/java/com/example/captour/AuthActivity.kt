@@ -3,12 +3,14 @@ package com.example.captour
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.example.captour.databinding.ActivityAuthBinding
 import com.example.captour.databinding.ItemRecyclerviewBinding
@@ -285,7 +287,23 @@ class AuthActivity : AppCompatActivity() {
         binding.naverLoginBtn.setBackgroundColor(colorCode)
         binding.signBtn.setBackgroundColor(colorCode)
 
-        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
-        recyclerView.title.textSize = fontSize / 16.0f
+
+        // 폰트 굵기 설정
+        val fontStyle = sharedPreference.getString("font_style", "regular")
+
+        var typeface: Typeface?
+        if(fontStyle == "regular") {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_regular)
+        } else {
+            typeface = ResourcesCompat.getFont(this, R.font.nanum_bold)
+        }
+
+        binding.signBtn.typeface = typeface
+        binding.logoutBtn.typeface = typeface
+        binding.loginBtn.typeface = typeface
+        binding.googleLoginBtn.typeface = typeface
+        binding.authPasswordEditView.typeface = typeface
+        binding.goSignInBtn.typeface = typeface
+        binding.authEmailEditView.typeface = typeface
     }
 }
