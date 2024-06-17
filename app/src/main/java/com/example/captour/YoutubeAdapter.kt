@@ -1,9 +1,11 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.YoutubeItemBinding
@@ -12,6 +14,8 @@ import com.example.captour.databinding.YoutubeItemBinding
 class MyViewHolder(val binding: YoutubeItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    lateinit var sharedPreference: SharedPreferences
+
     override fun getItemCount(): Int {
         return datas?.size ?:0
     }
@@ -51,6 +55,12 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
             .into(binding.youtubeThumbnail)
 
         val context = holder.itemView.context
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        holder.binding.videoTitle.textSize = fontSize + 4f
+        holder.binding.videoDescription.textSize = fontSize + 1f
 
         binding.root.setOnClickListener {
             Intent(context, YoutubeDetailActivity::class.java).apply {

@@ -1,11 +1,13 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.captour.databinding.FollowingItemBinding
 import retrofit2.Call
@@ -17,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MyFollowViewHolder(val binding: FollowingItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    lateinit var sharedPreference: SharedPreferences
     override fun getItemCount(): Int {
         return datas?.size ?:0
     }
@@ -68,5 +71,11 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
                 }
             })
         }
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        binding.following.textSize = fontSize + 1f
+        binding.followCancleBtn.textSize = fontSize + 1f
     }
 }

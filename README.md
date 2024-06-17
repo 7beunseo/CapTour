@@ -11,12 +11,12 @@ __*여행을 찍다 : CapTour*__
 ### ✔️Database  
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/firebase-DD2C00?style=for-the-badge&logo=firebase&logoColor=white">
 
+
 ### ✔️Deploy
 <img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
 
 ### ✔️ETC
-<img src="https://img.shields.io/badge/youtube API-FF0000?style=for-the-badge&logo=youtube&logoColor=white">
-<img width="150px" height="29px" src="readme_image/img2.png">
+<img src="https://img.shields.io/badge/youtube API-FF0000?style=for-the-badge&logo=youtube&logoColor=white"> <img width="150px" height="29px" src="readme_image/img2.png">
 
 
 
@@ -64,3 +64,4 @@ __*여행을 찍다 : CapTour*__
   <img width="150px" height="360px" src="readme_image/img18.png">
   <img width="150px" height="360px" src="readme_image/img19.png">
   <img width="150px" height="360px" src="readme_image/img20.png">
+

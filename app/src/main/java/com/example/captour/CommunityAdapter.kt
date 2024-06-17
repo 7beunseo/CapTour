@@ -2,11 +2,13 @@ package com.example.captour
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.CommunityItemBinding
@@ -15,6 +17,7 @@ import com.example.captour.databinding.CommunityItemBinding
 class CommunityViewHolder(val binding: CommunityItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 class CommunityAdapter (val context: Context, val itemList: MutableList<CommunityData>): RecyclerView.Adapter<CommunityViewHolder>() {
+    lateinit var sharedPreference: SharedPreferences
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,6 +29,13 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
     }
     override fun onBindViewHolder(holder: CommunityViewHolder, position: Int) {
         val data = itemList.get(position)
+
+        val context = holder.itemView.context
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        holder.binding.title.textSize = fontSize + 1f
+        // holder.binding.title.textSize = fontSize + 10f
 
         val imageRef = MyApplication.storage.reference.child("images/${data.docId}.jpg")
 

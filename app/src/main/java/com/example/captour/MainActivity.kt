@@ -1,19 +1,15 @@
 package com.example.captour
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -22,8 +18,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.captour.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.io.BufferedReader
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -147,6 +141,10 @@ class MainActivity : AppCompatActivity() {
         val fontSize = sharedPreference.getInt("font_size", 16)
 
         setTabTextSize(binding.tabs, fontSize + 1f)
+
+        val selectedFont = sharedPreference.getString("font", "regular")
+
+        theme.applyStyle(R.style.Base_Theme_CapTour, true)
     }
 
 }

@@ -117,6 +117,8 @@ class TwoFragment : Fragment() {
         // 글자 크기 설정
         val fontSize = sharedPreference.getInt("font_size", 16)
         binding.totoTitle.textSize = fontSize + 10f
+        binding.btnSearch.textSize = fontSize + 1f
+        binding.search.textSize = fontSize + 1f
 
         // 색상 설정
         val color = sharedPreference.getString("color", "#363C90")

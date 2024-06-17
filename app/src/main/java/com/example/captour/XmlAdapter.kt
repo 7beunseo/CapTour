@@ -1,11 +1,15 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ItemMainBinding
@@ -18,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class XmlViewHolder(val binding: ItemMainBinding): RecyclerView.ViewHolder(binding.root)
 class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    lateinit var sharedPreference: SharedPreferences
+
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
@@ -61,6 +67,25 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
             true
         }
 
+        val context = holder.itemView.context
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        binding.galTitle.textSize = fontSize + 10f
+        binding.galCreatedtime.textSize = fontSize + 1f
+        binding.galPhotographer.textSize = fontSize + 1f
+        binding.galPhotographyLocation.textSize = fontSize + 1f
+        binding.searchYoutube.textSize = fontSize + 1f
+        binding.galSearchKeyword.textSize = fontSize + 1f
+
+        val fontStyle = sharedPreference.getString("font", "NORMAL")
+
+        /*
+        val typeface = ResourcesCompat.getFont(context, R.font.nanum_bold)
+        binding.galTitle.typeface = typeface
+        
+         */
 
     }
 }

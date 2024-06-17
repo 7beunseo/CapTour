@@ -25,6 +25,14 @@
             app:showSeekBarValue="true"
             app:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            app:defaultValue="1"
+            app:entries="@array/my_font"
+            app:entryValues="@array/my_font_valuies"
+            app:key="font"
+            app:title="테마 글꼴 두께 설정"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/sync_header">

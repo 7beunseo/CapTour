@@ -164,8 +164,7 @@ class OneFragment : Fragment() {
         binding.last.setBackgroundColor(colorCode)
         binding.mainFab.setBackgroundColor(colorCode)
 
-        val recyclerView = ItemRecyclerviewBinding.inflate(layoutInflater)
-        recyclerView.title.textSize = fontSize / 16.0f
+        binding.mainFab.textSize = fontSize + 1f
     }
 
     companion object {

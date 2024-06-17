@@ -1,16 +1,20 @@
 package com.example.captour
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.captour.databinding.FollowerItemBinding
 
 class MyFollowerViewHolder(val binding: FollowerItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 class FollowerAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    lateinit var sharedPreference: SharedPreferences
+
     override fun getItemCount(): Int {
         return datas?.size ?:0
     }
@@ -32,5 +36,10 @@ class FollowerAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerVi
             }
             context.startActivity(intent)
         }
+
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+        val fontSize = sharedPreference.getInt("font_size", 16)
+
+        binding.follower.textSize = fontSize + 1f
     }
 }

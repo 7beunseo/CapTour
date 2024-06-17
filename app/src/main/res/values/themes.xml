@@ -6,7 +6,7 @@
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- 글꼴 지정 -->
-        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:fontFamily">@font/custom_font_family</item>
     </style>
 
     <style name="Theme.CapTour" parent="Base.Theme.CapTour" />
