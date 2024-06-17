@@ -2,6 +2,9 @@
 __*여행을 찍다 : CapTour*__<br>
 <img width="300px" src="readme_image/img1.png">
 
+<img width="300px" src="readme_image/splash_video.gif">
+
+
 ### ✔️Frond-end
 <img src="https://img.shields.io/badge/Android-34A853?style=for-the-badge&logo=android&logoColor=white">
 
