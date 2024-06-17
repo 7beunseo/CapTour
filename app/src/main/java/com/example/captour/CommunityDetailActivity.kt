@@ -95,7 +95,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     response.body()?.toString()?.let { Log.d("mobileapp", it) }
-                    Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 완료", Toast.LENGTH_LONG).show()
+                    // Toast.makeText(this@CommunityDetailActivity, "팔로우 상태 조회 완료", Toast.LENGTH_LONG).show()
                     if (response.body()?.message == "true") {
                         binding.followBtn.visibility = View.GONE
                         binding.followCancleBtn.visibility = View.VISIBLE
@@ -129,7 +129,7 @@ class CommunityDetailActivity : AppCompatActivity() {
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     response.body()?.toString()?.let { Log.d("mobileapp", it) }
-                    Toast.makeText(this@CommunityDetailActivity, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
+                    // Toast.makeText(this@CommunityDetailActivity, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
 
                     // 화면 다시 조회
                     val intent = intent
@@ -163,7 +163,7 @@ class CommunityDetailActivity : AppCompatActivity() {
 
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
-                    Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
+                    // Toast.makeText(this@CommunityDetailActivity, "팔로우 완료", Toast.LENGTH_LONG).show()
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         if (ContextCompat.checkSelfPermission(this@CommunityDetailActivity, "android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED) {

@@ -2,6 +2,8 @@ package com.example.captour
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.util.Log
@@ -58,16 +60,15 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
 
         }
 
+        val context = holder.itemView.context // context 얻기
 
         binding.galPhotographyLocation.setOnClickListener {
-            val context = holder.itemView.context // Context 얻기
             // 지도 연결
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=${model.galPhotographyLocation}"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(
+                "https://www.google.com/maps/search/?api=1&query=${model.galPhotographyLocation}"))
             context.startActivity(intent)
             true
         }
-
-        val context = holder.itemView.context
 
         // 폰트 사이즈 설정
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
@@ -97,6 +98,11 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
         binding.galSearchKeyword.typeface = typeface
         binding.galCreatedtime.typeface = typeface
 
+        // 색상 설정
+        val color = sharedPreference.getString("color", "#363C90")
+        val colorCode = Color.parseColor(color)
+        val colorStateList = ColorStateList.valueOf(colorCode)
+        binding.galTitle.setTextColor(colorCode)
 
     }
 }

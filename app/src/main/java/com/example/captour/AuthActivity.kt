@@ -94,8 +94,6 @@ class AuthActivity : AppCompatActivity() {
                         Log.d("mobileapp", "로그인 실패")
                     }
                 }
-
-
         }
 
         binding.logoutBtn.setOnClickListener {

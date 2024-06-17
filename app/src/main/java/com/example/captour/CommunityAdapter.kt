@@ -3,6 +3,8 @@ package com.example.captour
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,6 +50,7 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
                     .load(task.result)
                     .into(holder.binding.imageView)
 
+                // 이미지가 있는 경우
                 holder.binding.root.setOnClickListener {
                     Intent(context, CommunityDetailActivity::class.java).apply {
                         putExtra("title", data.title)
@@ -97,7 +100,5 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
         }
 
         holder.binding.title.typeface = typeface
-
-
     }
 }

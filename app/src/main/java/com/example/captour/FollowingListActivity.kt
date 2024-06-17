@@ -50,7 +50,7 @@ class FollowingListActivity : AppCompatActivity() {
         call?.enqueue(object : Callback<FollowJsonResponse> {
             override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                 Log.d("mobileapp", response.body()?.data.toString())
-                Toast.makeText(this@FollowingListActivity, "팔로잉 조회 완료", Toast.LENGTH_LONG).show()
+                // Toast.makeText(this@FollowingListActivity, "팔로잉 조회 완료", Toast.LENGTH_LONG).show()
                 binding.currentUser.text = "팔로잉 " + response.body()?.data?.count() ?: ""+0 + "명"
 
                 val adapter = FollowAdapter(response.body()?.data)

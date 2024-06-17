@@ -55,7 +55,7 @@ class FollowerListActivity : AppCompatActivity() {
         call?.enqueue(object : Callback<FollowJsonResponse> {
             override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                 Log.d("mobileapp", response.body()?.data.toString())
-                Toast.makeText(this@FollowerListActivity, "팔로워 조회 완료", Toast.LENGTH_LONG).show()
+                // Toast.makeText(this@FollowerListActivity, "팔로워 조회 완료", Toast.LENGTH_LONG).show()
                 binding.currentUser.text = "팔로워 " + response.body()?.data?.count() ?: ""+0 + "명"
 
                 val adapter = FollowerAdapter(response.body()?.data)
@@ -80,8 +80,7 @@ class FollowerListActivity : AppCompatActivity() {
 
         weekStatisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
             override fun onResponse(call: Call<FollowerStatisticsJsonResponse>, response: Response<FollowerStatisticsJsonResponse>) {
-                Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
-
+                // Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
                 val follower_values = ArrayList<Entry>(7)
 
                 val datas = response.body()?.data
@@ -104,11 +103,9 @@ class FollowerListActivity : AppCompatActivity() {
                 binding.weekLineChart.data = linedata
 
             }
-
             override fun onFailure(call: Call<FollowerStatisticsJsonResponse>, t: Throwable) {
                 Log.d("mobileapp", t.toString())
                 Toast.makeText(this@FollowerListActivity, "팔로워 조회 실패", Toast.LENGTH_LONG).show()
-
             }
         })
 
@@ -119,7 +116,7 @@ class FollowerListActivity : AppCompatActivity() {
 
         monthStatisticsCall?.enqueue(object : Callback<FollowerStatisticsJsonResponse> {
             override fun onResponse(call: Call<FollowerStatisticsJsonResponse>, response: Response<FollowerStatisticsJsonResponse>) {
-                Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
+                // Toast.makeText(this@FollowerListActivity, "팔로워 통계 조회 완료", Toast.LENGTH_LONG).show()
 
                 val follower_values = ArrayList<Entry>(7)
 
@@ -131,9 +128,7 @@ class FollowerListActivity : AppCompatActivity() {
                     }
                 }
 
-                // Log.d("mobileapp",follower_values.reversed().toString() )
-
-                val linedataset = LineDataSet(follower_values, "LineDataSet") // reverse해주어야 출력됨!
+                val linedataset = LineDataSet(follower_values, "LineDataSet")
 
                 val color = sharedPreference.getString("color", "#363C90")
                 val colorCode = Color.parseColor(color)

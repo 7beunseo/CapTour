@@ -30,7 +30,7 @@
             app:entries="@array/my_font"
             app:entryValues="@array/my_font_valuies"
             app:key="font_style"
-            app:title="테마 글꼴 두께 설정"
+            app:title="글꼴 두께 설정"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

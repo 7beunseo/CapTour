@@ -65,7 +65,7 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
             call?.enqueue(object : Callback<FollowJsonResponse> {
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     response.body()?.toString()?.let { Log.d("mobileapp", it) }
-                    Toast.makeText(context.applicationContext, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
+                    // Toast.makeText(context.applicationContext, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {

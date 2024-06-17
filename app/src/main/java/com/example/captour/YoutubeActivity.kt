@@ -56,12 +56,13 @@ class YoutubeActivity : AppCompatActivity() {
             override fun onResponse(call: Call<YoutubeJsonResponse>, response: Response<YoutubeJsonResponse>) {
                 val videos = response.body()?.items
 
-
+                /*
                 videos?.forEach { video ->
                     Log.d("Video Title", video.snippet.title)
                     Log.d("Description", video.snippet.description)
                     Log.d("Thumbnail URL", video.snippet.thumbnails.medium.url)
                 }
+                 */
 
                 val adapter = YoutubeAdapter(videos)
                 binding.videosRecyclerview.adapter = adapter

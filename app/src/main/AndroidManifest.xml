@@ -48,7 +48,8 @@
         <activity
             android:name=".YoutubeActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" /> <!-- 스플래시를 먼저 보냄, 이후 main 호출 -->
+            android:parentActivityName=".MainActivity" />
+        <!-- 스플래시를 먼저 보냄, 이후 main 호출 -->
         <activity
             android:name=".SplashActivity"
             android:exported="true" >

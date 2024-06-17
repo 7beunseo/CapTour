@@ -92,7 +92,7 @@ class TwoFragment : Fragment() {
                 "A"
             )
 
-            Log.d("mobileapp", searchText)
+            // Log.d("mobileapp", searchText)
 
             call?.enqueue(object: Callback<XmlResponse> {
                 override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
