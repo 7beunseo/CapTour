@@ -1,6 +1,6 @@
 # CapTour
-__*여행을 찍다 : CapTour*__
-![img.png](readme_image/img1.png)
+__*여행을 찍다 : CapTour*__<br>
+<img width="300px" src="readme_image/img1.png">
 
 ### ✔️Frond-end
 <img src="https://img.shields.io/badge/Android-34A853?style=for-the-badge&logo=android&logoColor=white">
@@ -66,3 +66,25 @@ __*여행을 찍다 : CapTour*__
   <img width="150px" height="360px" src="readme_image/img20.png">
 
 ## 📌 설정 항목 변경
+* 마이페이지의 설정 항목에 들어가서 앱의 설정을 바꿀 수 있으며 설정 항목은 4개로 구성되어 있습니다.
+  * 나에게 한마디를 작성할 수 있습니다.
+  * 테마 색상을 주황, 보라, 파랑 중에서 설정할 수 있습니다. (앱의 메인 색상)
+  * 글자 크기는 0부터 30까지 슬라이딩 바를 통해 설정할 수 있습니다.
+  * 글꼴 두께는 보통(regular), 두껍게(bold) 중에 선택할 수 있습니다.
+
+  <img width="150px" height="360px" src="readme_image/img21.png">
+  <img width="150px" height="360px" src="readme_image/img22.png">
+  <img width="150px" height="360px" src="readme_image/img23.png">
+  <img width="150px" height="360px" src="readme_image/img24.png">
+  <img width="150px" height="360px" src="readme_image/img25.png">
+  <img width="150px" height="360px" src="readme_image/img26.png">
+
+
+#### 💫 font
+* 나눔바른펜 https://hangeul.naver.com/fonts/search?f=nanum
+
+#### 💫 API
+* Youtube https://developers.google.com/youtube/v3?hl=ko<br>
+* 한국관광공사_관광사진 정보_GW https://www.data.go.kr/data/15101914/openapi.do
+* Captour server http://13.125.163.176/swagger-ui/index.html#/
+

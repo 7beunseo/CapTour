@@ -56,7 +56,7 @@ class YoutubeDetailActivity : AppCompatActivity() {
 
         // 글자 크기 설정
         val fontSize = sharedPreference.getInt("font_size", 16)
-        binding.videoTitle.textSize = fontSize + 3f
+        binding.videoTitle.textSize = fontSize + 5f
         binding.videoDescription.textSize = fontSize + 1f
 
         // 색상 설정
