@@ -32,7 +32,7 @@
   <img width="150px" height="360px" src="readme_image/img3.png">
   <img width="150px" height="360px" src="readme_image/img4.png">
   <img width="150px" height="360px" src="readme_image/img5.png">
-  <img width="150px" height="360px" src="readme_image/naver_login.gif">
+  <img width="150px" height="360px" src="readme_image/never_login.gif">
 
 
 ## 📌 커뮤니티
