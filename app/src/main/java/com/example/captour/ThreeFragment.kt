@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import com.example.captour.databinding.FragmentThreeBinding
@@ -129,14 +130,17 @@ class ThreeFragment : Fragment() {
         val user = binding.user
 
         Log.d("mobileapp", MyApplication.email.toString())
+        // if(MyApplication.checkAuth() || MyApplication.email  != null) {
         if(MyApplication.checkAuth()) {
-            status.text = "로그아웃"
-            user.text = "${MyApplication.email}님\n반갑습니다"
-        } else {
-            status.text = "로그인"
-            user.text = "안녕하세요"
+                status.text = "로그아웃"
+                user.text = "${MyApplication.email}님\n반갑습니다"
+            } else {
+                status.text = "로그인"
+                user.text = "안녕하세요"
+            }
         }
-    }
+
+
 
     override fun onResume() {
         super.onResume()

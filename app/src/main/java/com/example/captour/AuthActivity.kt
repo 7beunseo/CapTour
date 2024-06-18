@@ -202,10 +202,12 @@ class AuthActivity : AppCompatActivity() {
                     // 네이버 로그인 API 호출 성공 시 유저 정보를 가져옴
                     NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                         override fun onSuccess(result: NidProfileResponse) { /// 사용자의 이메일 정보가 NidProfileResponse 에 담김 -> email에 담음
+                            // 가져온 결과 값을 email에 저장
                             MyApplication.email = result.profile?.email.toString()
                             finish()
                         }
 
+                        // 로그인하는데 필요한 사용자 정보를 가지고 오는데 어라가 났을 경우
                         override fun onError(errorCode: Int, message: String) {
                             TODO("Not yet implemented")
                         }
@@ -217,11 +219,11 @@ class AuthActivity : AppCompatActivity() {
                 }
 
             }
-            NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "Captour")
-            NaverIdLoginSDK.authenticate(this, oAuthLoginCallback)
+            NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "Captour") // 초기화
+            NaverIdLoginSDK.authenticate(this, oAuthLoginCallback) // 인증에 대한 콜백을 받음
         }
 
-         */
+        */
 
     }
 
@@ -282,7 +284,7 @@ class AuthActivity : AppCompatActivity() {
         binding.loginBtn.setBackgroundColor(colorCode)
         binding.googleLoginBtn.setBackgroundColor(colorCode)
         binding.logoutBtn.setBackgroundColor(colorCode)
-        binding.naverLoginBtn.setBackgroundColor(colorCode)
+        // binding.naverLoginBtn.setBackgroundColor(colorCode)
         binding.signBtn.setBackgroundColor(colorCode)
 
 

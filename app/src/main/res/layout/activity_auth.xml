@@ -75,12 +75,12 @@
         android:layout_marginTop="20dp"
         android:visibility="gone"/>
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="네이버인증"
-        android:src="@drawable/btn_naver"
+    <ImageView
         android:id="@+id/naverLoginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:src="@drawable/btn_naver"
+        android:text="네이버인증"
+        android:visibility="gone" />
 </LinearLayout>
