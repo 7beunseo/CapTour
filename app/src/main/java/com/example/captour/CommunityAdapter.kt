@@ -65,18 +65,18 @@ class CommunityAdapter (val context: Context, val itemList: MutableList<Communit
                     }
                 }
             }
-        }
-
-        // 이미지 없는 경우
-        holder.binding.root.setOnClickListener {
-            Intent(context, CommunityDetailActivity::class.java).apply {
-                putExtra("title", data.title)
-                putExtra("email", data.email)
-                putExtra("dateTime", data.date_time)
-                putExtra("content", data.content)
-                putExtra("stars", data.stars)
-            }.run {
-                context.startActivity(this)
+        }.addOnFailureListener {task ->
+            // 이미지 없는 경우
+            holder.binding.root.setOnClickListener {
+                Intent(context, CommunityDetailActivity::class.java).apply {
+                    putExtra("title", data.title)
+                    putExtra("email", data.email)
+                    putExtra("dateTime", data.date_time)
+                    putExtra("content", data.content)
+                    putExtra("stars", data.stars)
+                }.run {
+                    context.startActivity(this)
+                }
             }
         }
 

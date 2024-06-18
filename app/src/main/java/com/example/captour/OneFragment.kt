@@ -105,14 +105,14 @@ class OneFragment : Fragment() {
 
 
         // 파일에 저장하기
-        val file = File(requireContext().filesDir, "test.txt")
+        val file = File(requireContext().filesDir, "count.txt")
 
         if (!file.exists()) {
-            file.writeText("No data") // 파일이 없으면 생성
+            file.writeText("0") // 파일이 없으면 생성
         }
 
         val readstream: BufferedReader = file.reader().buffered() // 읽을 준비
-        binding.last.text = "마지막 활동시간 : " + readstream.readLine()
+        binding.last.text = "이 기기에서 작성한 글 수 : " + readstream.readLine()
 
 
         binding.mainFab.setOnClickListener {

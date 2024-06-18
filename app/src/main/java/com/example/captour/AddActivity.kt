@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat
 class AddActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityAddBinding
-    lateinit var uri : Uri
+    var uri : Uri? = null
     lateinit var sharedPreference: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,12 +94,26 @@ class AddActivity : AppCompatActivity() {
             }
 
 
-            // 파일 저장하기
-            val dateformat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss") // 년 월 일 시 분 초
-            val file = File(filesDir, "test.txt")
-            val writestream: OutputStreamWriter = file.writer()
-            writestream.write(dateformat.format(System.currentTimeMillis()))
+            // 파일 객체 생성
+            val file = File(filesDir, "count.txt")
+
+            // 파일이 존재하지 않으면 초기화
+            if (!file.exists()) {
+                file.createNewFile()
+                file.writeText("0")
+            }
+
+            // 파일 읽기
+            val readstream = file.bufferedReader()
+            val count = readstream.readLine()?.toIntOrNull() ?: 0
+            readstream.close()
+
+            // 값 증가 및 파일에 쓰기
+            val data = count + 1
+            val writestream = file.bufferedWriter()
+            writestream.write(data.toString())
             writestream.flush()
+            writestream.close()
         }
 
         // 이미지 업로드
@@ -127,11 +141,11 @@ class AddActivity : AppCompatActivity() {
     fun uploadImage(docId : String){
         val imageRef = MyApplication.storage.reference.child("images/${docId}.jpg")
 
-        val uploadTask = imageRef.putFile(uri)
-        uploadTask.addOnSuccessListener {
+        val uploadTask = uri?.let { imageRef.putFile(it) }
+        uploadTask?.addOnSuccessListener {
             Toast.makeText(this, "사진 업로드 성공", Toast.LENGTH_LONG).show()
         }
-        uploadTask.addOnFailureListener {
+        uploadTask?.addOnFailureListener {
             Toast.makeText(this, "사진 업로드 실패", Toast.LENGTH_LONG).show()
         }
     }

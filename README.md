@@ -32,6 +32,8 @@
   <img width="150px" height="360px" src="readme_image/img3.png">
   <img width="150px" height="360px" src="readme_image/img4.png">
   <img width="150px" height="360px" src="readme_image/img5.png">
+  <img width="150px" height="360px" src="readme_image/naver_login.gif">
+
 
 ## 📌 커뮤니티
 * 제목, 내용, 총점, 이미지를 등록할 수 있습니다.
