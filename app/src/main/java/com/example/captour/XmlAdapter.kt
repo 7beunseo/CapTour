@@ -28,7 +28,7 @@ import java.io.File
 
 
 class XmlViewHolder(val binding: ItemMainBinding): RecyclerView.ViewHolder(binding.root)
-class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var sharedPreference: SharedPreferences
 
     override fun getItemCount(): Int {
@@ -68,8 +68,8 @@ class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): Recycl
                 val locationData = response.body()
                 locationData?.rows?.forEach { row ->
                     row.elements.forEach { element ->
-                        val distanceText = element.distance.text
-                        val durationText = element.duration.text
+                        val distanceText = element.distance?.text ?: "N/A"
+                        val durationText = element.duration?.text ?: "N/A"
                         Log.d("MainActivity", "거리: $distanceText, 시간: $durationText")
                         binding.galDistanceDuration.text = "${myMemo} 기준 : 거리: $distanceText, 시간: $durationText"
                     }

@@ -63,12 +63,34 @@ class TwoFragment : Fragment() {
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        var address: String = ""
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
-            setupRecyclerView(getLastLocation())
+            getLastLocation()
         }
+
+        val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
+            10,
+            1,
+            "ETC",
+            "CapTour",
+            "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
+            "A"
+        )
+
+        call?.enqueue(object: Callback<XmlResponse> {
+            override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
+                Log.d("mobileApp", "$response")
+                Log.d("mobileapp", "${response.body()}")
+                binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item)
+                binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
+                binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            }
+
+            override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
+                Log.d("mobileApp", "onFalure ${call.request()}")
+            }
+        })
 
         binding.btnSearch.setOnClickListener {
             val searchText = binding.search.text.toString()
@@ -86,8 +108,7 @@ class TwoFragment : Fragment() {
                 override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
                     Log.d("mobileApp", "$response")
                     Log.d("mobileapp", "${response.body()}")
-                    Log.d("mobileapp", "address : " + address)
-                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
+                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item)
                     binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
                     binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
                 }
@@ -100,33 +121,6 @@ class TwoFragment : Fragment() {
 
 
         return binding.root
-    }
-
-    // 위치 정보 얻은 후 다시그리기
-    fun setupRecyclerView(address: String) {
-        Log.d("mobileapp", "address-in : " + address)
-        val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
-            10,
-            1,
-            "ETC",
-            "CapTour",
-            "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
-            "A"
-        )
-
-        call?.enqueue(object: Callback<XmlResponse> {
-            override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
-                Log.d("mobileApp", "$response")
-                Log.d("mobileapp", "${response.body()}")
-                binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
-                binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
-                binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
-            }
-
-            override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
-                Log.d("mobileApp", "onFalure ${call.request()}")
-            }
-        })
     }
 
     // 위치 정보 얻기
