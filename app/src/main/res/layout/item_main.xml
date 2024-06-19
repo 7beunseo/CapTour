@@ -20,26 +20,30 @@
         android:layout_marginRight="20dp"
         >
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="title"
-            android:id="@+id/galTitle"
-            android:textSize="30dp"
-            android:textColor="#0000ff"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="galCreatedtime"
-            android:id="@+id/galCreatedtime"
-            android:textSize="15dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="galDistanceDuration"
-            android:id="@+id/galDistanceDuration"
-            android:textSize="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="title"
+                android:id="@+id/galTitle"
+                android:textSize="30dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#0000ff"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="galCreatedtime"
+                android:id="@+id/galCreatedtime"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -51,9 +55,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="galDistanceDuration"
+            android:id="@+id/galDistanceDuration"
+            android:layout_marginBottom="5dp"
+
+            android:textSize="15dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="galPhotographer"
             android:id="@+id/galPhotographer"
+            android:layout_marginBottom="5dp"
             android:textSize="15dp"/>
+
 
         <TextView
             android:layout_width="match_parent"

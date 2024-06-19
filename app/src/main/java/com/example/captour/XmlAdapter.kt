@@ -71,7 +71,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
                         val distanceText = element.distance?.text ?: "N/A"
                         val durationText = element.duration?.text ?: "N/A"
                         Log.d("MainActivity", "거리: $distanceText, 시간: $durationText")
-                        binding.galDistanceDuration.text = "${myMemo} 기준 : 거리: $distanceText, 시간: $durationText"
+                        binding.galDistanceDuration.text = "${myMemo} 기준 > 거리: $distanceText, 시간: $durationText"
                     }
                 }
             }
@@ -82,9 +82,9 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
         })
 
         binding.galTitle.text = model.galTitle
-        binding.galCreatedtime.text = model.galCreatedtime
+        binding.galCreatedtime.text = stringFormt(model.galCreatedtime.toString())
         binding.galPhotographyLocation.text = model.galPhotographyLocation + " (위치를 보려면 클릭)"
-        binding.galPhotographer.text = model.galPhotographer
+        binding.galPhotographer.text = "사진작가 : " + model.galPhotographer
         binding.galSearchKeyword.text = model.galSearchKeyword
 
         Glide.with(binding.root)
@@ -147,5 +147,13 @@ class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<Recycl
         val colorStateList = ColorStateList.valueOf(colorCode)
         binding.galTitle.setTextColor(colorCode)
 
+    }
+
+    fun stringFormt(date: String): String {
+        val year = date.substring(0, 4)
+        val month = date.substring(4, 6)
+        val day = date.substring(6, 8)
+
+        return "${year}년 ${month}월 ${day}일"
     }
 }
