@@ -1,15 +1,21 @@
 package com.example.captour
 
+import android.Manifest
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.location.Geocoder
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,26 +23,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.captour.databinding.FragmentTwoBinding
 import com.example.captour.databinding.ItemMainBinding
 import com.example.captour.databinding.ItemRecyclerviewBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Locale
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import android.location.Location
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import java.util.concurrent.Executors
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TwoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TwoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding : FragmentTwoBinding
     lateinit var sharedPreference: SharedPreferences
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +58,16 @@ class TwoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentTwoBinding.inflate(inflater, container, false)
         sharedPreference = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        var address: String = ""
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            address = getLastLocation()
+        }
 
         val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
             10,
@@ -64,12 +78,11 @@ class TwoFragment : Fragment() {
             "A"
         )
 
-
         call?.enqueue(object: Callback<XmlResponse> {
             override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
                 Log.d("mobileApp", "$response")
                 Log.d("mobileapp", "${response.body()}")
-                binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item)
+                binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
                 binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
                 binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
             }
@@ -77,7 +90,6 @@ class TwoFragment : Fragment() {
             override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
                 Log.d("mobileApp", "onFalure ${call.request()}")
             }
-
         })
 
         binding.btnSearch.setOnClickListener {
@@ -92,13 +104,11 @@ class TwoFragment : Fragment() {
                 "A"
             )
 
-            // Log.d("mobileapp", searchText)
-
             call?.enqueue(object: Callback<XmlResponse> {
                 override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
                     Log.d("mobileApp", "$response")
                     Log.d("mobileapp", "${response.body()}")
-                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item)
+                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
                     binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
                     binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
                 }
@@ -106,11 +116,71 @@ class TwoFragment : Fragment() {
                 override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
                     Log.d("mobileApp", "onFalure ${call.request()}")
                 }
-
             })
         }
 
+
         return binding.root
+    }
+
+    private fun getLastLocation(): String {
+        var data: String = ""
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return "Failed"
+        }
+        fusedLocationClient.lastLocation
+            .addOnCompleteListener(Executors.newSingleThreadExecutor(), OnCompleteListener<Location> { task ->
+                if (task.isSuccessful && task.result != null) {
+                    val location: Location = task.result
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+                    data = getAddressFromLocation(latitude, longitude)
+
+                } else {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(requireContext(), "Failed to get location", Toast.LENGTH_SHORT).show()
+                    }
+                    data = ""
+                }
+            })
+        return data
+    }
+
+    private fun getAddressFromLocation(latitude: Double, longitude: Double): String {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        var data: String = "Address not found"
+        Handler(Looper.getMainLooper()).post {
+            if (addresses != null) {
+                if (addresses.isNotEmpty()) {
+                    val address = addresses[0].getAddressLine(0)
+                    Toast.makeText(requireContext(), address, Toast.LENGTH_LONG).show()
+                    binding.currentLocation.text = "현재 위치 : " + address
+                    data = address
+                } else {
+                    Toast.makeText(requireContext(), "Address not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        return data
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onResume() {
@@ -128,6 +198,7 @@ class TwoFragment : Fragment() {
         val colorStateList = ColorStateList.valueOf(colorCode)
         binding.totoTitle.setBackgroundColor(colorCode)
         binding.btnSearch.setBackgroundColor(colorCode)
+        binding.currentLocation.setBackgroundColor(colorCode)
 
         // 폰트 굵기 설정
         val fontStyle = sharedPreference.getString("font_style", "regular")

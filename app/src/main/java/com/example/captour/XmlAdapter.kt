@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class XmlViewHolder(val binding: ItemMainBinding): RecyclerView.ViewHolder(binding.root)
-class XmlAdapter(val datas: MutableList<myXmlItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var sharedPreference: SharedPreferences
 
     override fun getItemCount(): Int {
