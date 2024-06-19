@@ -124,8 +124,7 @@ class TwoFragment : Fragment() {
     }
 
     // 위치 정보 얻기
-    fun getLastLocation(): String {
-        var data: String = ""
+    fun getLastLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -134,7 +133,6 @@ class TwoFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            return "Failed"
         }
         fusedLocationClient.lastLocation
             .addOnCompleteListener(Executors.newSingleThreadExecutor(), OnCompleteListener<Location> { task ->
@@ -142,49 +140,30 @@ class TwoFragment : Fragment() {
                     val location: Location = task.result
                     val latitude = location.latitude
                     val longitude = location.longitude
-                    data = getAddressFromLocation(latitude, longitude)
+                    getAddressFromLocation(latitude, longitude)
 
                 } else {
                     Handler(Looper.getMainLooper()).post {
                         Toast.makeText(requireContext(), "Failed to get location", Toast.LENGTH_SHORT).show()
                     }
-                    data = ""
                 }
             })
-        return data
     }
 
-    private fun getAddressFromLocation(latitude: Double, longitude: Double): String {
+    private fun getAddressFromLocation(latitude: Double, longitude: Double) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-        var data: String = "Address not found"
         Handler(Looper.getMainLooper()).post {
             if (addresses != null) {
                 if (addresses.isNotEmpty()) {
                     val address = addresses[0].getAddressLine(0)
                     Toast.makeText(requireContext(), address, Toast.LENGTH_LONG).show()
                     binding.currentLocation.text = "현재 위치 : " + address
-                    data = address
-
-                    val file = File(requireContext().filesDir, "location.txt")
-
-                    // 파일이 존재하지 않으면 초기화
-                    if (!file.exists()) {
-                        file.createNewFile()
-                        file.writeText("뒷골 1로 42")
-                    }
-
-                    val writestream = file.bufferedWriter()
-                    writestream.write(data.toString())
-                    writestream.flush()
-                    writestream.close()
-
                 } else {
                     Toast.makeText(requireContext(), "Address not found", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-        return data
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

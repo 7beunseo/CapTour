@@ -26,7 +26,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="1"
+            app:defaultValue="regular"
             app:entries="@array/my_font"
             app:entryValues="@array/my_font_valuies"
             app:key="font_style"
