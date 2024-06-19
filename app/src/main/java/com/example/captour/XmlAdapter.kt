@@ -121,6 +121,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): Recycl
         binding.galPhotographyLocation.textSize = fontSize + 1f
         binding.searchYoutube.textSize = fontSize + 1f
         binding.galSearchKeyword.textSize = fontSize + 1f
+        binding.galDistanceDuration.textSize = fontSize + 1f
 
         // 폰트 굵기 설정
         val fontStyle = sharedPreference.getString("font_style", "regular")
@@ -138,6 +139,7 @@ class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): Recycl
         binding.searchYoutube.typeface = typeface
         binding.galSearchKeyword.typeface = typeface
         binding.galCreatedtime.typeface = typeface
+        binding.galDistanceDuration.typeface = typeface
 
         // 색상 설정
         val color = sharedPreference.getString("color", "#363C90")

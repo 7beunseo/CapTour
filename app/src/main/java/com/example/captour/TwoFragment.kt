@@ -233,6 +233,7 @@ class TwoFragment : Fragment() {
         binding.search.typeface = typeface
         binding.btnSearch.typeface = typeface
         binding.totoTitle.typeface = typeface
+        binding.currentLocation.typeface = typeface
     }
 
     companion object {
