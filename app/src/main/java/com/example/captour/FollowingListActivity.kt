@@ -53,7 +53,7 @@ class FollowingListActivity : AppCompatActivity() {
                 // Toast.makeText(this@FollowingListActivity, "팔로잉 조회 완료", Toast.LENGTH_LONG).show()
                 binding.currentUser.text = "팔로잉 " + response.body()?.data?.count() ?: ""+0 + "명"
 
-                val adapter = FollowAdapter(response.body()?.data)
+                val adapter = FollowAdapter(response.body()?.data, this@FollowingListActivity)
                 binding.followRecyclerView.adapter = adapter
 
                 val layoutManager =  LinearLayoutManager(this@FollowingListActivity)
@@ -67,6 +67,36 @@ class FollowingListActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    // Adapter에서 다시 그리라고 호출
+    fun loadFollowList() {
+        // 팔로우 조회
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://13.125.163.176/captour/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(NetworkService::class.java)
+        val call = apiService.readFollowing(MyApplication.email.toString())
+
+        call?.enqueue(object : Callback<FollowJsonResponse> {
+            override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
+                Log.d("mobileapp", response.body()?.data.toString())
+                binding.currentUser.text = "팔로잉 " + (response.body()?.data?.count() ?: 0) + "명"
+
+                val adapter = FollowAdapter(response.body()?.data, this@FollowingListActivity)
+                binding.followRecyclerView.adapter = adapter
+
+                val layoutManager = LinearLayoutManager(this@FollowingListActivity)
+                binding.followRecyclerView.layoutManager = layoutManager
+            }
+
+            override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {
+                Log.d("mobileapp", t.toString())
+                Toast.makeText(this@FollowingListActivity, "팔로잉 조회 실패", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     override fun isLocalVoiceInteractionSupported(): Boolean {

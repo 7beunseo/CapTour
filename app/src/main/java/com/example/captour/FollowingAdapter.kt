@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MyFollowViewHolder(val binding: FollowingItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class FollowAdapter(val datas: List<Follow>?, val activity: FollowingListActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var sharedPreference: SharedPreferences
     override fun getItemCount(): Int {
         return datas?.size ?:0
@@ -66,6 +66,7 @@ class FollowAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerView
                 override fun onResponse(call: Call<FollowJsonResponse>, response: Response<FollowJsonResponse>) {
                     response.body()?.toString()?.let { Log.d("mobileapp", it) }
                     // Toast.makeText(context.applicationContext, "팔로우 삭제 완료", Toast.LENGTH_LONG).show()
+                    activity.loadFollowList() // 다시그림
                 }
 
                 override fun onFailure(call: Call<FollowJsonResponse>, t: Throwable) {

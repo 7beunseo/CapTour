@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // tab 색상 변경
-        val color = sharedPreference.getString("color", "#ff0000")
+        val color = sharedPreference.getString("color", "#363C90")
         Log.d("mobileapp", ""+color)
         val colorCode = Color.parseColor(color)
         val colorStateList = ColorStateList.valueOf(colorCode)
@@ -143,6 +143,9 @@ class MainActivity : AppCompatActivity() {
         val fontSize = sharedPreference.getInt("font_size", 16)
 
         setTabTextSize(binding.tabs, fontSize + 1f)
+
+        binding.tabs.tabIconTint = colorStateList
+        binding.tabs.tabTextColors = colorStateList
     }
 
 }

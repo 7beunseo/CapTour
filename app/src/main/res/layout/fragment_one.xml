@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
-            android:padding="15dp"
+            android:paddingTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/totoTitle"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/last"
             android:text="작성시간"
-            android:textSize="10dp"
+            android:textSize="15dp"
             android:textColor="@color/white"
             android:gravity="center_horizontal" />
 
