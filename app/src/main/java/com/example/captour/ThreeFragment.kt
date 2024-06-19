@@ -149,10 +149,10 @@ class ThreeFragment : Fragment() {
         val fontSize = sharedPreference.getInt("font_size", 16)
         var myMemo = ""
         if(MyApplication.checkAuth()) {
-            myMemo = sharedPreference.getString("myMemeo", "\"${MyApplication.email}님\n의지를 담은 한마디를 작성해보세요\"")
+            myMemo = sharedPreference.getString("myMemeo", "\"${MyApplication.email}님\n 위치와 시간을 검색할 기준이 되는 출발지를 입력해주세요\"")
                 .toString()
         } else {
-            myMemo = "로그인을 진행하여 나에게 한마디를 남겨보세요"
+            myMemo = "로그인을 진행하여 내 주소를 남겨보세요"
         }
         binding.setting.textSize = fontSize + 1f
         binding.user.textSize = fontSize + 1f
@@ -161,7 +161,7 @@ class ThreeFragment : Fragment() {
         binding.followingList.textSize = fontSize + 1f
         binding.followerList.textSize = fontSize + 1f
 
-        binding.forMe.text = "나에게 한마디\n" + myMemo
+        binding.forMe.text = myMemo
 
         // 글자 크기 설정
         binding.totoTitle.textSize = fontSize + 10f
@@ -169,7 +169,6 @@ class ThreeFragment : Fragment() {
         // 색상 설정
         val color = sharedPreference.getString("color", "#363C90")
         val colorCode = Color.parseColor(color)
-        val colorStateList = ColorStateList.valueOf(colorCode)
         binding.totoTitle.setBackgroundColor(colorCode)
 
         // 폰트 굵기 설정

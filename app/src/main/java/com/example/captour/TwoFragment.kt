@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationServices
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.io.File
 import java.util.concurrent.Executors
 
 private const val ARG_PARAM1 = "param1"
@@ -66,9 +67,44 @@ class TwoFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
-            address = getLastLocation()
+            setupRecyclerView(getLastLocation())
         }
 
+        binding.btnSearch.setOnClickListener {
+            val searchText = binding.search.text.toString()
+            val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getSearchXmlList(
+                10,
+                1,
+                "ETC",
+                searchText,
+                "CapTour",
+                "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
+                "A"
+            )
+
+            call?.enqueue(object: Callback<XmlResponse> {
+                override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
+                    Log.d("mobileApp", "$response")
+                    Log.d("mobileapp", "${response.body()}")
+                    Log.d("mobileapp", "address : " + address)
+                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
+                    binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
+                    binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+                }
+
+                override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
+                    Log.d("mobileApp", "onFalure ${call.request()}")
+                }
+            })
+        }
+
+
+        return binding.root
+    }
+
+    // 위치 정보 얻은 후 다시그리기
+    fun setupRecyclerView(address: String) {
+        Log.d("mobileapp", "address-in : " + address)
         val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getXmlList(
             10,
             1,
@@ -91,39 +127,10 @@ class TwoFragment : Fragment() {
                 Log.d("mobileApp", "onFalure ${call.request()}")
             }
         })
-
-        binding.btnSearch.setOnClickListener {
-            val searchText = binding.search.text.toString()
-            val call: Call<XmlResponse> = RetrofitConnection.xmlNetworkServ.getSearchXmlList(
-                10,
-                1,
-                "ETC",
-                searchText,
-                "CapTour",
-                "APKTrp0XMZTlReSionHVfAbVsgefp6rmsviSNGmE5MndTP43LqhqvSm2n7Qj+2GQ3TpsgbH/KaUWDEMV5ApISg==",
-                "A"
-            )
-
-            call?.enqueue(object: Callback<XmlResponse> {
-                override fun onResponse(call: Call<XmlResponse>, response: Response<XmlResponse>) {
-                    Log.d("mobileApp", "$response")
-                    Log.d("mobileapp", "${response.body()}")
-                    binding.xmlRecyclerView.adapter = XmlAdapter(response.body()?.body!!.items!!.item, address)
-                    binding.xmlRecyclerView.layoutManager = LinearLayoutManager(activity)
-                    binding.xmlRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
-                }
-
-                override fun onFailure(call: Call<XmlResponse>, t: Throwable) {
-                    Log.d("mobileApp", "onFalure ${call.request()}")
-                }
-            })
-        }
-
-
-        return binding.root
     }
 
-    private fun getLastLocation(): String {
+    // 위치 정보 얻기
+    fun getLastLocation(): String {
         var data: String = ""
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -164,6 +171,20 @@ class TwoFragment : Fragment() {
                     Toast.makeText(requireContext(), address, Toast.LENGTH_LONG).show()
                     binding.currentLocation.text = "현재 위치 : " + address
                     data = address
+
+                    val file = File(requireContext().filesDir, "location.txt")
+
+                    // 파일이 존재하지 않으면 초기화
+                    if (!file.exists()) {
+                        file.createNewFile()
+                        file.writeText("뒷골 1로 42")
+                    }
+
+                    val writestream = file.bufferedWriter()
+                    writestream.write(data.toString())
+                    writestream.flush()
+                    writestream.close()
+
                 } else {
                     Toast.makeText(requireContext(), "Address not found", Toast.LENGTH_SHORT).show()
                 }

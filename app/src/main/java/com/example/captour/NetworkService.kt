@@ -114,4 +114,16 @@ interface NetworkService {
     fun monthStatistics(
         @Query("following") following: String
     ): Call<FollowerStatisticsJsonResponse>
+
+    // 위치와 시간 계산
+    // https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins=%EA%B2%BD%EA%B8%B0%EB%8F%84%EA%B3%BC%EC%B2%9C%EC%8B%9C%EB%92%B7%EA%B3%A81%EB%A1%9C42&destinations=%EB%8D%95%EC%84%B1%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90&region=KR&key=AIzaSyAdBrNBXlLhJydcTA6OF74DIsMhPSApLgQ
+    // key=AIzaSyAdBrNBXlLhJydcTA6OF74DIsMhPSApLgQ
+    @GET("json")
+    fun getDistanceDuration(
+        @Query("units") units: String = "metric",
+        @Query("mode") mode: String = "transit",
+        @Query("origins") origins: String,
+        @Query("destinations") destinations: String,
+        @Query("key") key: String = "AIzaSyAdBrNBXlLhJydcTA6OF74DIsMhPSApLgQ"
+    ): Call<LocationJsonResponse>
 }

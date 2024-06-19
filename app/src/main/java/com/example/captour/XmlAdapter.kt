@@ -9,17 +9,22 @@ import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.captour.databinding.ItemMainBinding
+import com.google.android.play.integrity.internal.al
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.BufferedReader
+import java.io.File
 
 
 class XmlViewHolder(val binding: ItemMainBinding): RecyclerView.ViewHolder(binding.root)
@@ -37,6 +42,44 @@ class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): Recycl
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as XmlViewHolder).binding
         val model = datas!![position]
+
+        val context = holder.itemView.context // context 얻기
+        sharedPreference = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val myMemo = sharedPreference.getString("myMemeo", "서울역")
+
+        // 위치와 정보 가져오기
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://maps.googleapis.com/maps/api/distancematrix/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService = retrofit.create(NetworkService::class.java)
+
+        val call =
+            apiService.getDistanceDuration(
+                origins = myMemo.toString(),
+                destinations = model.galPhotographyLocation.toString()
+            )
+
+        call?.enqueue(object : Callback<LocationJsonResponse> {
+            override fun onResponse(call: Call<LocationJsonResponse>, response: Response<LocationJsonResponse>) {
+                response?.toString()?.let { Log.d("mobileapp", it) }
+                val locationData = response.body()
+                locationData?.rows?.forEach { row ->
+                    row.elements.forEach { element ->
+                        val distanceText = element.distance.text
+                        val durationText = element.duration.text
+                        Log.d("MainActivity", "거리: $distanceText, 시간: $durationText")
+                        binding.galDistanceDuration.text = "${myMemo} 기준 : 거리: $distanceText, 시간: $durationText"
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<LocationJsonResponse>, t: Throwable) {
+                Toast.makeText(context.applicationContext, "거리 데이터 불러오기 실패", Toast.LENGTH_LONG).show()
+            }
+        })
 
         binding.galTitle.text = model.galTitle
         binding.galCreatedtime.text = model.galCreatedtime
@@ -59,8 +102,6 @@ class XmlAdapter(val datas: MutableList<myXmlItem>, val address: String): Recycl
             true
 
         }
-
-        val context = holder.itemView.context // context 얻기
 
         binding.galPhotographyLocation.setOnClickListener {
             // 지도 연결

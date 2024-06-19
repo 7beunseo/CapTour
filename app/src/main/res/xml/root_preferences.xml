@@ -5,11 +5,11 @@
 
         <EditTextPreference
             app:key="myMemeo"
-            app:title="자신에게 하고 싶은 말"
+            app:title="위치와 시간을 검색할 기준이 되는 출발지"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="1"
+            app:defaultValue="#363C90"
             app:entries="@array/my_color"
             app:entryValues="@array/my_color_values"
             app:key="color"
