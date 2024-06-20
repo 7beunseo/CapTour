@@ -68,7 +68,7 @@ class YoutubeAdapter(val datas: List<VideoItem>?): RecyclerView.Adapter<Recycler
             Intent(context, YoutubeDetailActivity::class.java).apply {
                 putExtra("title", youtubeData.snippet.title)
                 putExtra("description", youtubeData.snippet.description)
-                putExtra("videoId", youtubeData.id.videoId.toString())
+                putExtra("videoId", youtubeData.id.videoId.toString() ?: "")
             }.run {
                 context.startActivity(this)
             }

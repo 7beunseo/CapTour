@@ -34,7 +34,7 @@ class FollowerAdapter(val datas: List<Follow>?): RecyclerView.Adapter<RecyclerVi
 
         binding.follower.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:${followdata.following}")
+                data = Uri.parse("mailto:${followdata.follower}")
             }
             context.startActivity(intent)
         }
